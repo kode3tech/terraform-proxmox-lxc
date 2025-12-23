@@ -7,6 +7,10 @@
 !terraform.tfvars.example
 !*.auto.tfvars.example
 
+# Temporary files
+.tmp/**
+_temp/**
+
 # Crash log files
 crash.log
 crash.*.log

@@ -188,6 +188,25 @@ network_ip = "dhcp"
 - Do not assume user wants to commit after file changes
 - Focus on code quality and validation, not version control actions
 
+### Pre-commit Validation (Mandatory)
+When user explicitly requests a commit:
+1. ALWAYS run pre-commit hooks first: `pre-commit run --all-files`
+2. Redirect output to `.tmp/` directory for analysis
+3. Fix any issues found by pre-commit hooks
+4. Re-run validation until all checks pass
+5. Only proceed with commit after successful validation
+6. Use semantic commit message format (Conventional Commits)
+
+Example workflow:
+```bash
+# Run validation
+pre-commit run --all-files > .tmp/pre-commit.log 2>&1
+
+# If validation passes, proceed with commit
+git add .
+git commit -m "feat: description of changes"
+```
+
 ### Response Format
 - Be concise and technical
 - Provide complete code blocks when creating or modifying files

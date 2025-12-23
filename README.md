@@ -193,3 +193,66 @@ MIT
 ## Authors
 
 Infrastructure Team
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) | ~> 2.9 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_proxmox"></a> [proxmox](#provider\_proxmox) | 2.9.14 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [proxmox_lxc.this](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs/resources/lxc) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_arch"></a> [arch](#input\_arch) | Container architecture | `string` | `"amd64"` | no |
+| <a name="input_cores"></a> [cores](#input\_cores) | Number of CPU cores allocated to the container | `number` | `1` | no |
+| <a name="input_description"></a> [description](#input\_description) | Description of the container | `string` | `""` | no |
+| <a name="input_env"></a> [env](#input\_env) | Environment identifier (dev, stg, or prd) | `string` | n/a | yes |
+| <a name="input_index"></a> [index](#input\_index) | Numeric index for the container (01-99) | `string` | `"01"` | no |
+| <a name="input_memory"></a> [memory](#input\_memory) | Memory allocation in MB for the container | `number` | `512` | no |
+| <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to attach the container to | `string` | `"vmbr0"` | no |
+| <a name="input_network_gateway"></a> [network\_gateway](#input\_network\_gateway) | Gateway IP address for the container network | `string` | `null` | no |
+| <a name="input_network_ip"></a> [network\_ip](#input\_network\_ip) | IP address configuration for the container (e.g., '192.168.1.100/24' or 'dhcp') | `string` | `"dhcp"` | no |
+| <a name="input_network_vlan"></a> [network\_vlan](#input\_network\_vlan) | VLAN tag for the network interface | `number` | `null` | no |
+| <a name="input_onboot"></a> [onboot](#input\_onboot) | Start container on host boot | `bool` | `false` | no |
+| <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | OS template for the container (e.g., 'local:vztmpl/ubuntu-22.04-standard\_22.04-1\_amd64.tar.zst') | `string` | n/a | yes |
+| <a name="input_password"></a> [password](#input\_password) | Root password for the container (use with caution) | `string` | `null` | no |
+| <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix for resource naming | `string` | n/a | yes |
+| <a name="input_rootfs_size"></a> [rootfs\_size](#input\_rootfs\_size) | Size of the root filesystem (e.g., '8G', '20G') | `string` | `"8G"` | no |
+| <a name="input_rootfs_storage"></a> [rootfs\_storage](#input\_rootfs\_storage) | Storage pool for the root filesystem | `string` | `"local-lvm"` | no |
+| <a name="input_ssh_public_keys"></a> [ssh\_public\_keys](#input\_ssh\_public\_keys) | SSH public keys to inject into the container | `string` | `null` | no |
+| <a name="input_start"></a> [start](#input\_start) | Start the container after creation | `bool` | `true` | no |
+| <a name="input_swap"></a> [swap](#input\_swap) | Swap allocation in MB for the container | `number` | `512` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags to apply to the container (will be merged with mandatory tags) | `map(string)` | `{}` | no |
+| <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Name of the Proxmox node where the container will be created | `string` | n/a | yes |
+| <a name="input_unprivileged"></a> [unprivileged](#input\_unprivileged) | Create an unprivileged container (recommended for security) | `bool` | `true` | no |
+| <a name="input_vmid"></a> [vmid](#input\_vmid) | VM ID for the LXC container. If not set, Proxmox will auto-assign | `number` | `null` | no |
+| <a name="input_workload"></a> [workload](#input\_workload) | Workload identifier for the container | `string` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_hostname"></a> [hostname](#output\_hostname) | The hostname of the LXC container |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the LXC container resource |
+| <a name="output_ipv4_address"></a> [ipv4\_address](#output\_ipv4\_address) | The IPv4 address of the LXC container (if static IP is configured) |
+| <a name="output_network_config"></a> [network\_config](#output\_network\_config) | Network configuration applied to the container |
+| <a name="output_vmid"></a> [vmid](#output\_vmid) | The VM ID assigned to the LXC container |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

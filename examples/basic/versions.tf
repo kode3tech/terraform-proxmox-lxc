@@ -4,7 +4,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
-      version = "~> 3.0"
+      version = "~> 2.9"
     }
   }
 }
@@ -14,6 +14,6 @@ terraform {
 # - PM_API_URL (e.g., https://proxmox.example.com:8006/api2/json)
 # - PM_API_TOKEN_ID (e.g., terraform@pam!token_id)
 # - PM_API_TOKEN_SECRET
-provider "proxmox" {
-  pm_tls_insecure = true # Set to false in production with valid certificates
-}
+# provider "proxmox" {
+#   pm_tls_insecure = true # Set to false in production with valid certificates
+# }

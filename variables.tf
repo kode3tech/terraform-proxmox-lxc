@@ -145,7 +145,7 @@ variable "network_vlan" {
   default     = null
 
   validation {
-    condition     = var.network_vlan == null || (var.network_vlan >= 1 && var.network_vlan <= 4094)
+    condition     = var.network_vlan == null || try(var.network_vlan >= 1 && var.network_vlan <= 4094, false)
     error_message = "VLAN must be between 1 and 4094"
   }
 }

@@ -98,17 +98,24 @@ cd terraform-proxmox-lxc
 asdf install
 ```
 
-3. Initialize the module:
+3. Install pre-commit hooks:
+```bash
+pip install pre-commit
+pre-commit install
+pre-commit install --hook-type commit-msg
+```
+
+4. Initialize the module:
 ```bash
 terraform init
 ```
 
-4. Run formatting:
+5. Run formatting:
 ```bash
 terraform fmt -recursive
 ```
 
-5. Run validation:
+6. Run validation:
 ```bash
 terraform validate
 ```
@@ -130,6 +137,10 @@ terraform plan
 Before submitting a PR, ensure:
 
 ```bash
+# Run all pre-commit hooks
+pre-commit run --all-files
+
+# Or individually:
 # Format check
 terraform fmt -check -recursive
 
