@@ -1,0 +1,9 @@
+# Copy this file to terraform.tfvars and adjust values for your environment
+
+# Proxmox authentication
+# Set these as environment variables instead:
+# export PM_API_URL="https://proxmox.example.com:8006/api2/json"
+# export PM_API_TOKEN_ID="terraform@pam!token_id"
+# export PM_API_TOKEN_SECRET="your-secret-token"
+
+# Or configure in provider block in versions.tf
