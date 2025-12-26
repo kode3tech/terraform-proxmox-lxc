@@ -26,16 +26,16 @@ module "lxc_with_hookscript" {
 
   # Basic configuration
   vmid         = var.vmid
-  cores        = 2
-  memory       = 2048
-  swap         = 1024
-  unprivileged = true
-  onboot       = false
-  start        = true
+  cores        = var.cores
+  memory       = var.memory
+  swap         = var.swap
+  unprivileged = var.unprivileged
+  onboot       = var.onboot
+  start        = var.start
 
   # Root filesystem
   rootfs_storage = var.rootfs_storage
-  rootfs_size    = "8G"
+  rootfs_size    = var.rootfs_size
 
   # Network configuration
   network_bridge  = var.network_bridge
@@ -66,15 +66,12 @@ module "lxc_with_hookscript" {
 
   # Features
   features = {
-    nesting = true # Required for Docker/containers
+    nesting = var.features_nesting # Required for Docker/containers
   }
 
   # Description
-  description = "LXC container with hookscript demonstration"
+  description = var.description
 
   # Tags
-  tags = {
-    environment = "demo"
-    purpose     = "hookscript-testing"
-  }
+  tags = var.tags
 }

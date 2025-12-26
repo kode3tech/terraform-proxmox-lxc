@@ -28,6 +28,18 @@ variable "network_bridge" {
   default     = "vmbr0"
 }
 
+variable "rootfs_size" {
+  description = "Size of the root filesystem"
+  type        = string
+  default     = "8G"
+}
+
+variable "network_ip" {
+  description = "IP address configuration (dhcp, manual, or CIDR notation)"
+  type        = string
+  default     = "dhcp"
+}
+
 variable "root_password" {
   description = "Root password for the container (use ssh_public_keys in production instead)"
   type        = string

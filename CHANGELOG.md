@@ -15,6 +15,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2025-12-26
+
+### Changed
+- **Complete example parameterization**: ALL hardcoded values converted to variables across all examples
+  - **Basic example**: Added `rootfs_size` and `network_ip` variables
+  - **Advanced example**: Added 40+ variables covering all module parameters
+    - Resource allocation: `arch`, `cores`, `cpulimit`, `cpuunits`, `memory`, `swap`
+    - Storage: `rootfs_storage`, `rootfs_size`, `bwlimit`
+    - Network: `network_bridge`, `network_ip`, `network_gateway`, `network_ip6`, `network_gw6`, `network_hwaddr`, `network_mtu`, `network_rate`, `network_vlan`, `network_firewall`
+    - DNS: `nameserver`, `searchdomain`
+    - Behavior: `unprivileged`, `onboot`, `start`, `template`, `unique`
+    - Console: `cmode`, `console`, `tty`
+    - Startup: `startup`
+    - Features: `features_nesting`
+    - Authentication: `password`, `ostype`
+    - Management: `pool`, `protection`, `force`, `restore`, `hookscript`
+    - Metadata: `description`, `tags`
+    - Advanced: `additional_networks`, `mountpoints`
+  - **Provisioner examples**: Added variables for `cores`, `memory`, `swap`, `unprivileged`, `onboot`, `start`, `rootfs_size`, `features_nesting`, `password`, `description`, `tags`
+  - **Provisioner-multi-scripts**: Added all provisioner variables plus `provisioner_timeout`
+  - **Hookscript example**: Added variables for `cores`, `memory`, `swap`, `unprivileged`, `onboot`, `start`, `rootfs_size`, `features_nesting`, `description`, `tags`
+
+### Improved
+- **User experience**: Examples now 100% configurable via `terraform.tfvars`
+- **Documentation quality**: All variables have comprehensive descriptions
+- **Terraform Registry**: Complete variable documentation visible in Registry
+- **Customization**: Users can now customize every aspect of examples without editing main files
+
+---
+
 ## [1.1.0] - 2025-12-26
 
 ### Added

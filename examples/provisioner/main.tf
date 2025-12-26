@@ -38,16 +38,16 @@ module "lxc_with_script" {
 
   # Basic configuration
   vmid         = var.vmid
-  cores        = 4
-  memory       = 4096
-  swap         = 2048
-  unprivileged = true
-  onboot       = true
-  start        = true
+  cores        = var.cores
+  memory       = var.memory
+  swap         = var.swap
+  unprivileged = var.unprivileged
+  onboot       = var.onboot
+  start        = var.start
 
   # Root filesystem
   rootfs_storage = var.rootfs_storage
-  rootfs_size    = "16G"
+  rootfs_size    = var.rootfs_size
 
   # Network configuration (MUST be static IP for provisioner)
   network_bridge  = var.network_bridge
@@ -59,11 +59,11 @@ module "lxc_with_script" {
   # ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   # For testing without SSH keys, use password instead:
-  password = "YourSecurePassword123!"
+  password = var.password
 
   # Features
   features = {
-    nesting = true # Required for Docker
+    nesting = var.features_nesting # Required for Docker
   }
 
   # =============================================================================
@@ -83,12 +83,8 @@ module "lxc_with_script" {
   # provisioner_script_path     = "${path.module}/scripts/install-docker.sh"
 
   # Description
-  description = "LXC container with Docker installed via external script"
+  description = var.description
 
   # Tags
-  tags = {
-    environment = "demo"
-    purpose     = "provisioner-script"
-    stack       = "docker"
-  }
+  tags = var.tags
 }

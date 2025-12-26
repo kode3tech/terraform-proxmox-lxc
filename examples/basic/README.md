@@ -960,8 +960,10 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_hostname"></a> [hostname](#input\_hostname) | Hostname for the LXC container | `string` | `"app-dev-web-01"` | no |
 | <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to attach the container to | `string` | `"vmbr0"` | no |
+| <a name="input_network_ip"></a> [network\_ip](#input\_network\_ip) | IP address configuration (dhcp, manual, or CIDR notation) | `string` | `"dhcp"` | no |
 | <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | OS template to use for the container (storage:vztmpl/template-name.tar.gz) | `string` | `"nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"` | no |
 | <a name="input_root_password"></a> [root\_password](#input\_root\_password) | Root password for the container (use ssh\_public\_keys in production instead) | `string` | `"YourSecurePassword123!"` | no |
+| <a name="input_rootfs_size"></a> [rootfs\_size](#input\_rootfs\_size) | Size of the root filesystem | `string` | `"8G"` | no |
 | <a name="input_rootfs_storage"></a> [rootfs\_storage](#input\_rootfs\_storage) | Storage pool for the root filesystem | `string` | `"nas"` | no |
 | <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Proxmox node name where the LXC container will be created | `string` | `"pve01"` | no |
 

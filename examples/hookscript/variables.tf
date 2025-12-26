@@ -62,5 +62,68 @@ variable "root_password" {
   sensitive   = true
 }
 
+variable "cores" {
+  description = "Number of CPU cores allocated to container"
+  type        = number
+  default     = 2
+}
+
+variable "memory" {
+  description = "Amount of RAM allocated to container in MB"
+  type        = number
+  default     = 2048
+}
+
+variable "swap" {
+  description = "Amount of swap memory in MB"
+  type        = number
+  default     = 1024
+}
+
+variable "unprivileged" {
+  description = "Run container as unprivileged user"
+  type        = bool
+  default     = true
+}
+
+variable "onboot" {
+  description = "Start container automatically when host boots"
+  type        = bool
+  default     = false
+}
+
+variable "start" {
+  description = "Start container immediately after creation"
+  type        = bool
+  default     = true
+}
+
+variable "rootfs_size" {
+  description = "Size of the root filesystem"
+  type        = string
+  default     = "8G"
+}
+
+variable "features_nesting" {
+  description = "Enable nested virtualization (required for Docker/containers)"
+  type        = bool
+  default     = true
+}
+
+variable "description" {
+  description = "Container description"
+  type        = string
+  default     = "LXC container with hookscript demonstration"
+}
+
+variable "tags" {
+  description = "Custom tags for organization"
+  type        = map(string)
+  default = {
+    environment = "demo"
+    purpose     = "hookscript-testing"
+  }
+}
+
 # No input variables are required for this example.
 # =============================================================================

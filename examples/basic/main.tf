@@ -22,13 +22,13 @@ module "lxc_container" {
   # STORAGE CONFIGURATION
   # ---------------------------------------------------------------------------
   rootfs_storage = var.rootfs_storage # Storage pool for root filesystem
-  rootfs_size    = "8G"               # Root filesystem size
+  rootfs_size    = var.rootfs_size    # Root filesystem size
 
   # ---------------------------------------------------------------------------
   # NETWORK CONFIGURATION
   # ---------------------------------------------------------------------------
   network_bridge = var.network_bridge # Bridge to attach
-  network_ip     = "dhcp"             # Use DHCP for automatic IP assignment
+  network_ip     = var.network_ip     # Use DHCP for automatic IP assignment
 
   # ---------------------------------------------------------------------------
   # AUTHENTICATION & ACCESS

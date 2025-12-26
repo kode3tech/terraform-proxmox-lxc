@@ -49,5 +49,76 @@ variable "network_gateway" {
   default     = "192.168.1.1"
 }
 
+variable "cores" {
+  description = "Number of CPU cores allocated to container"
+  type        = number
+  default     = 4
+}
+
+variable "memory" {
+  description = "Amount of RAM allocated to container in MB"
+  type        = number
+  default     = 4096
+}
+
+variable "swap" {
+  description = "Amount of swap memory in MB"
+  type        = number
+  default     = 2048
+}
+
+variable "unprivileged" {
+  description = "Run container as unprivileged user"
+  type        = bool
+  default     = true
+}
+
+variable "onboot" {
+  description = "Start container automatically when host boots"
+  type        = bool
+  default     = true
+}
+
+variable "start" {
+  description = "Start container immediately after creation"
+  type        = bool
+  default     = true
+}
+
+variable "rootfs_size" {
+  description = "Size of the root filesystem"
+  type        = string
+  default     = "16G"
+}
+
+variable "features_nesting" {
+  description = "Enable nested virtualization (required for Docker)"
+  type        = bool
+  default     = true
+}
+
+variable "password" {
+  description = "Root password for the container"
+  type        = string
+  default     = "YourSecurePassword123!"
+  sensitive   = true
+}
+
+variable "description" {
+  description = "Container description"
+  type        = string
+  default     = "LXC container with Docker installed via external script"
+}
+
+variable "tags" {
+  description = "Custom tags for organization"
+  type        = map(string)
+  default = {
+    environment = "demo"
+    purpose     = "provisioner-script"
+    stack       = "docker"
+  }
+}
+
 # No input variables are required for this example.
 # =============================================================================

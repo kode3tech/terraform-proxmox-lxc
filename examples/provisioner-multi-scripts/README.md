@@ -1054,13 +1054,25 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_cores"></a> [cores](#input\_cores) | Number of CPU cores allocated to container | `number` | `2` | no |
+| <a name="input_description"></a> [description](#input\_description) | Container description | `string` | `"LXC container with multi-script provisioning (Docker + logging)"` | no |
+| <a name="input_features_nesting"></a> [features\_nesting](#input\_features\_nesting) | Enable nested virtualization (required for Docker) | `bool` | `true` | no |
 | <a name="input_hostname"></a> [hostname](#input\_hostname) | Hostname for the LXC container | `string` | `"lxc-multi-scripts-demo"` | no |
+| <a name="input_memory"></a> [memory](#input\_memory) | Amount of RAM allocated to container in MB | `number` | `2048` | no |
 | <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to attach the container to | `string` | `"vmbr0"` | no |
 | <a name="input_network_gateway"></a> [network\_gateway](#input\_network\_gateway) | Network gateway IP address | `string` | `"192.168.1.1"` | no |
 | <a name="input_network_ip"></a> [network\_ip](#input\_network\_ip) | Static IP address with CIDR notation (required for provisioner) | `string` | `"192.168.1.221/24"` | no |
+| <a name="input_onboot"></a> [onboot](#input\_onboot) | Start container automatically when host boots | `bool` | `true` | no |
 | <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | OS template to use for the container | `string` | `"nas:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"` | no |
+| <a name="input_password"></a> [password](#input\_password) | Root password for the container | `string` | `"YourSecurePassword123!"` | no |
+| <a name="input_provisioner_timeout"></a> [provisioner\_timeout](#input\_provisioner\_timeout) | Timeout for provisioner execution | `string` | `"10m"` | no |
+| <a name="input_rootfs_size"></a> [rootfs\_size](#input\_rootfs\_size) | Size of the root filesystem | `string` | `"20G"` | no |
 | <a name="input_rootfs_storage"></a> [rootfs\_storage](#input\_rootfs\_storage) | Storage pool for the root filesystem | `string` | `"nas"` | no |
+| <a name="input_start"></a> [start](#input\_start) | Start container immediately after creation | `bool` | `true` | no |
+| <a name="input_swap"></a> [swap](#input\_swap) | Amount of swap memory in MB | `number` | `512` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Custom tags for organization | `map(string)` | <pre>{<br>  "environment": "demo",<br>  "purpose": "provisioner-multi-scripts",<br>  "stack": "docker"<br>}</pre> | no |
 | <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Proxmox node name where the LXC container will be created | `string` | `"pve01"` | no |
+| <a name="input_unprivileged"></a> [unprivileged](#input\_unprivileged) | Run container as unprivileged user | `bool` | `true` | no |
 | <a name="input_vmid"></a> [vmid](#input\_vmid) | Unique container ID in Proxmox | `number` | `401` | no |
 
 ## Outputs

@@ -44,16 +44,16 @@ module "lxc_with_multi_scripts" {
 
   # Basic configuration
   vmid         = var.vmid
-  cores        = 2
-  memory       = 2048
-  swap         = 512
-  unprivileged = true
-  onboot       = true
-  start        = true
+  cores        = var.cores
+  memory       = var.memory
+  swap         = var.swap
+  unprivileged = var.unprivileged
+  onboot       = var.onboot
+  start        = var.start
 
   # Root filesystem
   rootfs_storage = var.rootfs_storage
-  rootfs_size    = "20G"
+  rootfs_size    = var.rootfs_size
 
   # Network configuration (MUST be static IP for provisioner)
   network_bridge  = var.network_bridge
@@ -65,11 +65,11 @@ module "lxc_with_multi_scripts" {
   # ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   # For testing without SSH keys, use password instead:
-  password = "YourSecurePassword123!"
+  password = var.password
 
   # Features
   features = {
-    nesting = true # Required for Docker
+    nesting = var.features_nesting # Required for Docker
   }
 
   # =============================================================================
@@ -89,15 +89,11 @@ module "lxc_with_multi_scripts" {
   # provisioner_scripts_dir     = "${path.module}/scripts"
 
   # Connection timeout (increased for multiple scripts)
-  provisioner_timeout = "10m"
+  provisioner_timeout = var.provisioner_timeout
 
   # Description
-  description = "LXC container with multi-script provisioning (Docker + logging)"
+  description = var.description
 
   # Tags
-  tags = {
-    environment = "demo"
-    purpose     = "provisioner-multi-scripts"
-    stack       = "docker"
-  }
+  tags = var.tags
 }

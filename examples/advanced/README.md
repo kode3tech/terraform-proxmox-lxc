@@ -759,9 +759,51 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_additional_networks"></a> [additional\_networks](#input\_additional\_networks) | Additional network interfaces beyond eth0 | <pre>list(object({<br>    name     = string<br>    bridge   = string<br>    ip       = string<br>    gw       = string<br>    tag      = number<br>    firewall = bool<br>  }))</pre> | <pre>[<br>  {<br>    "bridge": "vmbr0",<br>    "firewall": false,<br>    "gw": "10.10.0.1",<br>    "ip": "10.10.0.10/20",<br>    "name": "eth1",<br>    "tag": 10<br>  },<br>  {<br>    "bridge": "vmbr0",<br>    "firewall": false,<br>    "gw": "10.60.0.1",<br>    "ip": "10.60.0.10/23",<br>    "name": "eth2",<br>    "tag": 60<br>  }<br>]</pre> | no |
+| <a name="input_arch"></a> [arch](#input\_arch) | Container CPU architecture (amd64, arm64, armhf, i386) | `string` | `"amd64"` | no |
+| <a name="input_bwlimit"></a> [bwlimit](#input\_bwlimit) | I/O bandwidth limit in KiB/s (null = no limit) | `number` | `null` | no |
+| <a name="input_cmode"></a> [cmode](#input\_cmode) | Container console mode (tty, console, shell) | `string` | `"console"` | no |
+| <a name="input_console"></a> [console](#input\_console) | Enable console device | `bool` | `true` | no |
+| <a name="input_cores"></a> [cores](#input\_cores) | Number of CPU cores allocated to container | `number` | `8` | no |
+| <a name="input_cpulimit"></a> [cpulimit](#input\_cpulimit) | CPU usage limit in number of cores (0 = no limit) | `number` | `4` | no |
+| <a name="input_cpuunits"></a> [cpuunits](#input\_cpuunits) | CPU weight for kernel scheduler | `number` | `4096` | no |
+| <a name="input_description"></a> [description](#input\_description) | Container description | `string` | `"Production Docker container for web applications"` | no |
+| <a name="input_features_nesting"></a> [features\_nesting](#input\_features\_nesting) | Enable nested virtualization (required for Docker) | `bool` | `true` | no |
+| <a name="input_force"></a> [force](#input\_force) | Force creation overwriting existing container | `bool` | `false` | no |
+| <a name="input_hookscript"></a> [hookscript](#input\_hookscript) | Script executed on lifecycle events | `string` | `null` | no |
 | <a name="input_hostname"></a> [hostname](#input\_hostname) | Hostname for the LXC container | `string` | `"docker-prd-app-01"` | no |
+| <a name="input_memory"></a> [memory](#input\_memory) | Amount of RAM allocated to container in MB | `number` | `4096` | no |
+| <a name="input_mountpoints"></a> [mountpoints](#input\_mountpoints) | Additional storage volumes beyond root filesystem | <pre>list(object({<br>    slot      = string<br>    storage   = string<br>    mp        = string<br>    size      = string<br>    backup    = bool<br>    replicate = optional(bool)<br>  }))</pre> | <pre>[<br>  {<br>    "backup": true,<br>    "mp": "/mnt/data",<br>    "size": "50G",<br>    "slot": "0",<br>    "storage": "nas"<br>  },<br>  {<br>    "backup": true,<br>    "mp": "/var/lib/docker",<br>    "replicate": false,<br>    "size": "100G",<br>    "slot": "1",<br>    "storage": "nas"<br>  }<br>]</pre> | no |
+| <a name="input_nameserver"></a> [nameserver](#input\_nameserver) | DNS server IP address | `string` | `"8.8.4.4"` | no |
+| <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to attach the container to | `string` | `"vmbr0"` | no |
+| <a name="input_network_firewall"></a> [network\_firewall](#input\_network\_firewall) | Enable Proxmox firewall on interface | `bool` | `false` | no |
+| <a name="input_network_gateway"></a> [network\_gateway](#input\_network\_gateway) | Network gateway IP address | `string` | `"192.168.1.1"` | no |
+| <a name="input_network_gw6"></a> [network\_gw6](#input\_network\_gw6) | IPv6 gateway address | `string` | `null` | no |
+| <a name="input_network_hwaddr"></a> [network\_hwaddr](#input\_network\_hwaddr) | Custom MAC address | `string` | `null` | no |
+| <a name="input_network_ip"></a> [network\_ip](#input\_network\_ip) | Static IP address with CIDR notation | `string` | `"192.168.1.201/24"` | no |
+| <a name="input_network_ip6"></a> [network\_ip6](#input\_network\_ip6) | IPv6 address configuration (auto, dhcp, manual, or CIDR) | `string` | `"auto"` | no |
+| <a name="input_network_mtu"></a> [network\_mtu](#input\_network\_mtu) | Maximum Transmission Unit (packet size) | `number` | `1500` | no |
+| <a name="input_network_rate"></a> [network\_rate](#input\_network\_rate) | Network rate limit in Mbps | `number` | `100` | no |
+| <a name="input_network_vlan"></a> [network\_vlan](#input\_network\_vlan) | VLAN tag for network segmentation | `number` | `null` | no |
+| <a name="input_onboot"></a> [onboot](#input\_onboot) | Start container automatically when host boots | `bool` | `false` | no |
 | <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | OS template to use for the container | `string` | `"nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"` | no |
+| <a name="input_ostype"></a> [ostype](#input\_ostype) | Container operating system type | `string` | `null` | no |
+| <a name="input_password"></a> [password](#input\_password) | Root password for the container | `string` | `"YourSecurePassword123!"` | no |
+| <a name="input_pool"></a> [pool](#input\_pool) | Proxmox resource pool name | `string` | `null` | no |
+| <a name="input_protection"></a> [protection](#input\_protection) | Protection against accidental removal | `bool` | `false` | no |
+| <a name="input_restore"></a> [restore](#input\_restore) | Mark operation as backup restore | `bool` | `false` | no |
+| <a name="input_rootfs_size"></a> [rootfs\_size](#input\_rootfs\_size) | Root filesystem size | `string` | `"20G"` | no |
+| <a name="input_rootfs_storage"></a> [rootfs\_storage](#input\_rootfs\_storage) | Storage pool for the root filesystem | `string` | `"nas"` | no |
+| <a name="input_searchdomain"></a> [searchdomain](#input\_searchdomain) | DNS search domain | `string` | `"kode3.intra"` | no |
+| <a name="input_start"></a> [start](#input\_start) | Start container immediately after creation | `bool` | `true` | no |
+| <a name="input_startup"></a> [startup](#input\_startup) | Boot order and timing configuration (format: order=N,up=N,down=N) | `string` | `"order=2,up=30,down=60"` | no |
+| <a name="input_swap"></a> [swap](#input\_swap) | Amount of swap memory in MB | `number` | `2048` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Custom tags for organization | `map(string)` | <pre>{<br>  "application": "web-server",<br>  "backup": "daily",<br>  "environment": "production",<br>  "team": "devops",<br>  "test": "true"<br>}</pre> | no |
 | <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Proxmox node name where the LXC container will be created | `string` | `"pve01"` | no |
+| <a name="input_template"></a> [template](#input\_template) | Mark container as template | `bool` | `false` | no |
+| <a name="input_tty"></a> [tty](#input\_tty) | Number of TTY terminals available | `number` | `2` | no |
+| <a name="input_unique"></a> [unique](#input\_unique) | Generate random unique MAC address | `bool` | `false` | no |
+| <a name="input_unprivileged"></a> [unprivileged](#input\_unprivileged) | Run container as unprivileged user | `bool` | `true` | no |
 | <a name="input_vmid"></a> [vmid](#input\_vmid) | Unique container ID in Proxmox | `number` | `200` | no |
 
 ## Outputs
