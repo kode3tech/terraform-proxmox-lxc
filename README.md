@@ -5,6 +5,8 @@
 [![Terraform](https://img.shields.io/badge/terraform-%3E%3D1.6.0-623CE4)](https://www.terraform.io)
 [![OpenTofu](https://img.shields.io/badge/opentofu-compatible-yellow)](https://opentofu.org)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![Release](https://img.shields.io/github/v/release/kode3tech/terraform-proxmox-lxc)](https://github.com/kode3tech/terraform-proxmox-lxc/releases)
+[![Provider](https://img.shields.io/badge/provider-Telmate%2Fproxmox-orange)](https://github.com/Telmate/terraform-provider-proxmox)
 
 A professional Terraform/OpenTofu module for creating and managing LXC (Linux Container) instances on Proxmox VE using the Telmate/proxmox provider.
 
@@ -24,6 +26,7 @@ A professional Terraform/OpenTofu module for creating and managing LXC (Linux Co
 - [Advanced Usage](#advanced-usage)
 - [Security](#security)
 - [Contributing](#contributing)
+- [FAQ](#faq)
 - [Support](#support)
 - [License](#license)
 
@@ -42,6 +45,76 @@ A professional Terraform/OpenTofu module for creating and managing LXC (Linux Co
 - **Security First**: Defaults to unprivileged containers, supports SSH key injection
 - **OpenTofu Compatible**: Full compatibility with OpenTofu 1.6+
 - **Opinionated Defaults**: Sensible defaults for quick deployment
+
+### Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Your Infrastructure"
+        TF[Terraform/OpenTofu]
+    end
+
+    subgraph "Proxmox VE Cluster"
+        API[Proxmox API]
+        NODE1[Node 1]
+        NODE2[Node 2]
+
+        subgraph "Storage"
+            LOCAL[local-lvm]
+            NAS[NAS/NFS]
+        end
+
+        subgraph "Network"
+            VMBR0[vmbr0 Bridge]
+            VMBR1[vmbr1 Bridge]
+        end
+    end
+
+    subgraph "LXC Container"
+        CT[Container Instance]
+        ROOTFS[Root Filesystem]
+        MP1[Mountpoint /mnt/data]
+        MP2[Mountpoint /var/lib/docker]
+        NET0[eth0 - Primary Network]
+        NET1[eth1 - Secondary Network]
+    end
+
+    subgraph "Optional Components"
+        PROV[Provisioner Scripts]
+        HOOK[Hookscript]
+    end
+
+    TF -->|"Telmate Provider"| API
+    API -->|"Create/Manage"| NODE1
+    API -->|"Create/Manage"| NODE2
+    NODE1 --> CT
+    LOCAL -->|"rootfs"| ROOTFS
+    NAS -->|"mountpoint"| MP1
+    NAS -->|"mountpoint"| MP2
+    VMBR0 --> NET0
+    VMBR1 --> NET1
+    TF -.->|"remote-exec"| PROV
+    PROV -.->|"SSH"| CT
+    API -.->|"lifecycle events"| HOOK
+    HOOK -.->|"pct exec"| CT
+
+    style CT fill:#e1f5ff
+    style TF fill:#623ce4
+    style API fill:#ff9800
+    style PROV fill:#4caf50
+    style HOOK fill:#9c27b0
+```
+
+**Key Components:**
+
+- **Terraform/OpenTofu**: Manages infrastructure as code
+- **Telmate Provider**: Translates Terraform config to Proxmox API calls
+- **Proxmox API**: Controls container lifecycle
+- **LXC Container**: The managed container instance
+- **Storage**: Root filesystem and additional mountpoints
+- **Network**: Multiple network interfaces with VLAN support
+- **Provisioners** (optional): SSH-based configuration automation
+- **Hookscripts** (optional): Perl scripts for lifecycle events
 
 ## Requirements
 
@@ -562,6 +635,186 @@ module "container" {
 Always pin to a specific version tag in production. See [CHANGELOG.md](CHANGELOG.md) for version history and upgrade instructions.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) (if available) for detailed contribution guidelines.
+
+## FAQ
+
+### General Questions
+
+**Q: Can I use this module with OpenTofu instead of Terraform?**
+
+A: Yes! This module is 100% compatible with OpenTofu 1.6.0+. Simply replace `terraform` commands with `tofu` commands. All examples and configurations work identically.
+
+**Q: What Proxmox VE versions are supported?**
+
+A: This module is tested with Proxmox VE 7.x and 8.x. Proxmox 9.x should work but requires the updated permission set (without `VM.Monitor` which was deprecated).
+
+**Q: Is this module published on the Terraform Registry?**
+
+A: Yes! You can find it on the [Terraform Registry](https://registry.terraform.io/) and use it with standard module syntax.
+
+**Q: Can I use DHCP for container networking?**
+
+A: Yes! Set `network_ip = "dhcp"` for automatic IP assignment. However, **static IPs are required** if you use provisioners (remote-exec) since Terraform needs to SSH into the container.
+
+### Container Configuration
+
+**Q: How do I enable Docker support in my container?**
+
+A: Enable nested virtualization:
+```hcl
+features {
+  nesting = true
+}
+```
+See the [provisioner example](examples/provisioner/) for a complete Docker installation.
+
+**Q: What's the difference between unprivileged and privileged containers?**
+
+A: **Unprivileged containers** (default, `unprivileged = true`) run with user namespace isolation for better security. **Privileged containers** (`unprivileged = false`) run as root and have more permissions but are less secure. Use unprivileged unless you have specific requirements.
+
+**Q: How do I add SSH keys for authentication?**
+
+A: Use the `ssh_public_keys` variable:
+```hcl
+ssh_public_keys = file("~/.ssh/id_rsa.pub")
+```
+See [examples/advanced/](examples/advanced/) for complete configuration.
+
+**Q: Can I create multiple network interfaces?**
+
+A: Yes! Use the `network` block. See [examples/advanced/](examples/advanced/) for multi-network configuration examples.
+
+### Provisioning & Automation
+
+**Q: What's the difference between provisioners and hookscripts?**
+
+| Feature | Provisioner (remote-exec) | Hookscript |
+|---------|---------------------------|------------|
+| **Execution** | Inside container via SSH | On Proxmox host |
+| **Language** | Any (bash, python, etc.) | Perl only |
+| **Use case** | Initial configuration | Lifecycle management |
+| **Network required** | Yes (static IP) | No |
+
+See [provisioner example](examples/provisioner/) and [hookscript example](examples/hookscript/) for detailed comparisons.
+
+**Q: Why does my provisioner fail with "connection refused"?**
+
+A: Common causes:
+1. **DHCP used instead of static IP** - Provisioners require static IPs
+2. **Container not fully booted** - Increase `provisioner_wait_seconds`
+3. **SSH not installed** - Ensure your template has SSH server
+4. **Firewall blocking** - Check Proxmox firewall rules
+
+**Q: Can I run multiple provisioning scripts?**
+
+A: Yes! See [provisioner-multi-scripts example](examples/provisioner-multi-scripts/) which demonstrates running 5 ordered scripts for system updates, timezone, users, Docker, and logging configuration.
+
+### Storage & Resources
+
+**Q: How do I add additional storage to my container?**
+
+A: Use the `mountpoint` blocks:
+```hcl
+mountpoint {
+  slot    = "0"
+  storage = "nas"
+  mp      = "/mnt/data"
+  size    = "50G"
+}
+```
+See [examples/advanced/](examples/advanced/) for complete mountpoint examples.
+
+**Q: What's the difference between `cores` and `cpulimit`?**
+
+- **`cores`**: Number of CPU cores visible to the container
+- **`cpulimit`**: Maximum CPU usage in cores (can be fractional)
+- **`cpuunits`**: CPU scheduler weight (default: 1024)
+
+Example: `cores = 8, cpulimit = 4` gives the container 8 visible cores but limits actual usage to 4 cores.
+
+**Q: How do I limit I/O bandwidth?**
+
+A: Use the `bwlimit` parameter:
+```hcl
+rootfs {
+  storage = "local-lvm"
+  size    = "20G"
+  bwlimit = 10240  # 10 MB/s in KiB/s
+}
+```
+
+### Troubleshooting
+
+**Q: My container fails to create with "storage not found" error**
+
+A: Verify the storage name matches exactly:
+```bash
+pvesm status  # List all storage on Proxmox
+```
+Common storage names: `local`, `local-lvm`, `nas`, `nfs-storage`
+
+**Q: Container created but I can't access it**
+
+A: Check:
+1. Container is running: `pct status <vmid>`
+2. Network configuration: `pct config <vmid> | grep net`
+3. SSH service: `pct exec <vmid> -- systemctl status ssh`
+4. Firewall rules on Proxmox
+
+**Q: How do I access container logs?**
+
+A: Use Proxmox CLI:
+```bash
+pct exec <vmid> -- journalctl -f  # Live logs
+pct exec <vmid> -- tail -f /var/log/syslog  # Syslog
+```
+
+**Q: Terraform reports "container already exists"**
+
+A: Either:
+1. Import existing container: `terraform import module.container.proxmox_lxc.this <vmid>`
+2. Use different VMID
+3. Remove existing container first
+
+### Security
+
+**Q: How do I secure my Proxmox API credentials?**
+
+A: Use environment variables (recommended):
+```bash
+export PM_API_TOKEN_ID="terraform@pam!mytoken"
+export PM_API_TOKEN_SECRET="your-secret"
+```
+Never commit credentials to version control. See [SECURITY.md](SECURITY.md) for best practices.
+
+**Q: Should I use passwords or SSH keys?**
+
+A: **SSH keys are strongly recommended** for production. Passwords are acceptable for testing/development. See [examples/advanced/](examples/advanced/) for SSH key configuration.
+
+**Q: How do I enable protection against accidental deletion?**
+
+A: Set `protection = true`. This prevents deletion via Proxmox UI and `terraform destroy` will fail safely.
+
+### Migration & Upgrades
+
+**Q: How do I migrate from hardcoded values to variables?**
+
+A: Since v1.1.1, all examples use variables. Copy the `variables.tf` from any example and customize via `terraform.tfvars`.
+
+**Q: How do I upgrade to a new module version?**
+
+A:
+1. Review [CHANGELOG.md](CHANGELOG.md) for breaking changes
+2. Update module version in your configuration
+3. Run `terraform init -upgrade`
+4. Run `terraform plan` to review changes
+5. Test in non-production first
+
+**Q: Are there any breaking changes I should know about?**
+
+A: Check [CHANGELOG.md](CHANGELOG.md) for version-specific breaking changes. Major version bumps (e.g., v1.x.x → v2.x.x) may contain breaking changes.
+
+---
 
 ## Support
 

@@ -321,4 +321,4 @@ This module follows these security principles:
 ---
 
 **Last Updated:** 2025-12-26
-**Policy Version:** 1.1.2
+**Policy Version:** 1.2.0

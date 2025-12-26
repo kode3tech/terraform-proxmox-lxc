@@ -9,9 +9,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Planned
 - Integration tests with Terratest
-- Automated security scanning
+- GitHub Discussions setup and configuration
 - Performance benchmarks
-- Additional provisioning examples
+- Video tutorials and guides
+
+---
+
+## [1.2.0] - 2025-12-26
+
+### Added
+- **Enhanced README badges**: Added Release and Provider badges for better visibility
+  - GitHub Release version badge
+  - Telmate/proxmox provider badge
+  - Improved professional appearance
+- **Comprehensive FAQ section**: Added extensive FAQ with 20+ common questions and answers
+  - General questions (OpenTofu compatibility, Proxmox versions, Terraform Registry)
+  - Container configuration (Docker support, networking, SSH keys)
+  - Provisioning & automation (provisioners vs hookscripts, troubleshooting)
+  - Storage & resources (mountpoints, CPU limits, I/O bandwidth)
+  - Security best practices (API credentials, SSH keys, protection)
+  - Migration & upgrades (version upgrades, breaking changes)
+  - Comprehensive troubleshooting guide
+- **Architecture diagram**: Added Mermaid diagram showing module architecture
+  - Visual representation of Terraform, Proxmox API, and LXC container relationships
+  - Storage and network component overview
+  - Provisioner and hookscript integration flow
+  - Color-coded components for clarity
+
+### Changed
+- **Table of Contents**: Updated to include FAQ section
+- **Documentation structure**: Improved navigation and user experience
+
+### Improved
+- **User onboarding**: FAQ reduces support burden and improves self-service
+- **Visual communication**: Architecture diagram clarifies module design
+- **Professional presentation**: Enhanced badges increase credibility
 
 ---
 
