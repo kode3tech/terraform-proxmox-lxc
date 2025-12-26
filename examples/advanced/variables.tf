@@ -330,6 +330,4 @@ variable "mountpoints" {
     }
   ]
 }
-
-# No input variables are required for this example.
 # =============================================================================

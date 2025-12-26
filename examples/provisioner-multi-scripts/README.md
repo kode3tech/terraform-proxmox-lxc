@@ -4,7 +4,7 @@ This example demonstrates how to use **multiple modular scripts** with the `prov
 
 ## OpenTofu Compatibility
 
-✅ **This module is fully compatible with OpenTofu!**
+**This module is fully compatible with OpenTofu!**
 
 All `terraform` commands in this guide can be replaced with `tofu`:
 
@@ -18,14 +18,14 @@ tofu init && tofu apply
 
 ## What This Example Creates
 
-- ✅ **LXC container** with static IP (192.168.1.221/24)
-- ✅ **System updates** applied automatically
-- ✅ **Timezone configured** (America/Sao_Paulo) with NTP
-- ✅ **Application user** (`appuser`) and group created
-- ✅ **Docker installed** via official repository
-- ✅ **Logging configured** with rotation policies
-- ✅ **Modular provisioning** - 5 ordered scripts
-- ✅ **SSH key authentication** configured
+- **LXC container** with static IP (192.168.1.221/24)
+- **System updates** applied automatically
+- **Timezone configured** (America/Sao_Paulo) with NTP
+- **Application user** (`appuser`) and group created
+- **Docker installed** via official repository
+- **Logging configured** with rotation policies
+- **Modular provisioning** - 5 ordered scripts
+- **SSH key authentication** configured
 
 ## What is Scripts Directory Provisioning?
 
@@ -33,12 +33,12 @@ The `provisioner_scripts_dir` feature allows you to organize provisioning into *
 
 ### Benefits of Multiple Scripts
 
-✅ **Modularity** - Each script handles one logical concern
-✅ **Reusability** - Copy individual scripts across projects
-✅ **Maintainability** - Easier to update specific steps
-✅ **Team collaboration** - Different team members own different scripts
-✅ **Testing** - Test scripts independently
-✅ **Clear ordering** - Numeric prefixes control execution sequence
+**Modularity** - Each script handles one logical concern
+**Reusability** - Copy individual scripts across projects
+**Maintainability** - Easier to update specific steps
+**Team collaboration** - Different team members own different scripts
+**Testing** - Test scripts independently
+**Clear ordering** - Numeric prefixes control execution sequence
 
 ### Execution Order
 
@@ -131,7 +131,7 @@ The module supports **three** provisioning approaches:
 provisioner_scripts_dir = "${path.module}/scripts"
 ```
 
-**✅ Best for:**
+**Best for:**
 - Complex multi-phase provisioning
 - Team collaboration (different scripts for different owners)
 - Reusability (mix and match scripts across projects)
@@ -155,7 +155,7 @@ See [provisioner example](../provisioner)
 provisioner_script_path = "${path.module}/scripts/install.sh"
 ```
 
-**✅ Best for:**
+**Best for:**
 - Single-purpose provisioning (just Docker, just PostgreSQL)
 - Simple linear workflows
 - Small teams or solo projects
@@ -171,7 +171,7 @@ provisioner_commands = [
 ]
 ```
 
-**✅ Best for:**
+**Best for:**
 - Quick testing
 - Very simple provisioning (1-5 commands)
 - Proof of concepts
@@ -197,13 +197,13 @@ provisioner_commands = [
 
 ### 3. Network Requirements
 
-⚠️ **CRITICAL**: Static IP is **required** for provisioners!
+WARNING: **CRITICAL**: Static IP is **required** for provisioners!
 
 ```hcl
-# ✅ CORRECT - Static IP
+# CORRECT - Static IP
 network_ip = "192.168.1.221/24"
 
-# ❌ WRONG - DHCP won't work with provisioners
+# WRONG - DHCP won't work with provisioners
 network_ip = "dhcp"
 ```
 
@@ -919,14 +919,14 @@ terraform destroy  # or: tofu destroy
 ```
 
 **What gets deleted:**
-- ✅ Container (VMID 401)
-- ✅ Container disk
-- ✅ Provisioner resource
+- Container (VMID 401)
+- Container disk
+- Provisioner resource
 
 **What remains:**
-- ❌ Scripts (local files)
-- ❌ SSH keys
-- ❌ LXC template
+- Scripts (local files)
+- SSH keys
+- LXC template
 
 ---
 
@@ -1017,14 +1017,14 @@ Before using in production:
 
 This example demonstrates:
 
-✅ **Multiple modular scripts** for organized provisioning
-✅ **Controlled execution order** via numeric prefixes
-✅ **Modular approach** - system, user, Docker, logging separated
-✅ **Clear debugging** with script execution headers
-✅ **Change detection** via combined MD5 hash
-✅ **Reusable components** across projects
-✅ **Team collaboration** - different owners for different scripts
-✅ **Production-ready** approach to complex provisioning
+**Multiple modular scripts** for organized provisioning
+**Controlled execution order** via numeric prefixes
+**Modular approach** - system, user, Docker, logging separated
+**Clear debugging** with script execution headers
+**Change detection** via combined MD5 hash
+**Reusable components** across projects
+**Team collaboration** - different owners for different scripts
+**Production-ready** approach to complex provisioning
 
 Use this as a template for your multi-phase LXC container configuration! 🚀
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

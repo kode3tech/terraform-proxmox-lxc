@@ -8,7 +8,7 @@
 
 A professional Terraform/OpenTofu module for creating and managing LXC (Linux Container) instances on Proxmox VE using the Telmate/proxmox provider.
 
-**✨ Production-ready** | **🔒 Security-first** | **📚 Comprehensive docs** | **🧪 Fully tested**
+**Production-ready** | **Security-first** | **Comprehensive documentation** | **Fully tested**
 
 ---
 
@@ -137,7 +137,7 @@ terraform plan
 terraform apply
 ```
 
-**📚 For detailed examples, see the [examples/](examples/) directory.**
+**For detailed examples, see the [examples/](examples/) directory.**
 
 ---
 
@@ -567,11 +567,11 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) (if available) for detailed contr
 
 Need help or have questions?
 
-- **📖 Documentation** - Check the [examples/](examples/) directory for detailed use cases
-- **🐛 Bug Reports** - [Open an issue](https://github.com/kode3tech/terraform-proxmox-lxc/issues/new?template=bug_report.yml)
-- **💡 Feature Requests** - [Request a feature](https://github.com/kode3tech/terraform-proxmox-lxc/issues/new?template=feature_request.yml)
-- **💬 Questions** - Use [GitHub Discussions](https://github.com/kode3tech/terraform-proxmox-lxc/discussions)
-- **📚 Learning Resources** - See [SUPPORT.md](SUPPORT.md) for troubleshooting and community resources
+- **Documentation** - Check the [examples/](examples/) directory for detailed use cases
+- **Bug Reports** - [Open an issue](https://github.com/kode3tech/terraform-proxmox-lxc/issues/new?template=bug_report.yml)
+- **Feature Requests** - [Request a feature](https://github.com/kode3tech/terraform-proxmox-lxc/issues/new?template=feature_request.yml)
+- **Questions** - Use [GitHub Discussions](https://github.com/kode3tech/terraform-proxmox-lxc/discussions)
+- **Learning Resources** - See [SUPPORT.md](SUPPORT.md) for troubleshooting and community resources
 
 For security vulnerabilities, please review our [Security Policy](SECURITY.md).
 

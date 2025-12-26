@@ -4,7 +4,7 @@ This example demonstrates how to create a basic LXC container on Proxmox VE usin
 
 ## OpenTofu Compatibility
 
-✅ **This module is fully compatible with OpenTofu!**
+**This module is fully compatible with OpenTofu!**
 
 OpenTofu is an open-source Terraform fork that maintains compatibility with Terraform configurations. You can use either tool interchangeably:
 
@@ -34,11 +34,11 @@ tofu apply
 
 ## What This Example Creates
 
-- ✅ Ubuntu 20.04 LXC container
-- ✅ DHCP network configuration (automatic IP assignment)
-- ✅ Password authentication for root user
-- ✅ 8GB root filesystem on your specified storage
-- ✅ Container starts automatically after creation
+- Ubuntu 20.04 LXC container
+- DHCP network configuration (automatic IP assignment)
+- Password authentication for root user
+- 8GB root filesystem on your specified storage
+- Container starts automatically after creation
 
 ## Prerequisites
 
@@ -261,10 +261,10 @@ PM_TLS_INSECURE=true
 
 **Important Notes:**
 
-- ✅ Replace `192.168.1.100` with your Proxmox host IP
-- ✅ Replace `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with your actual token secret
-- ✅ Never commit `.env` to git (already in `.gitignore`)
-- ✅ Keep your token secret secure
+- Replace `192.168.1.100` with your Proxmox host IP
+- Replace `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with your actual token secret
+- Never commit `.env` to git (already in `.gitignore`)
+- Keep your token secret secure
 
 #### Enable direnv
 
@@ -367,10 +367,10 @@ terraform init
 
 **What happened?**
 
-- ✅ Downloaded Telmate Proxmox provider
-- ✅ Initialized the module
-- ✅ Created `.terraform` directory with provider binaries
-- ✅ Created `.terraform.lock.hcl` file (dependency lock)
+- Downloaded Telmate Proxmox provider
+- Initialized the module
+- Created `.terraform` directory with provider binaries
+- Created `.terraform.lock.hcl` file (dependency lock)
 
 ---
 
@@ -399,10 +399,10 @@ terraform plan
 
 **Review the plan carefully!**
 
-- ✅ Verify hostname is correct
-- ✅ Check target node matches your Proxmox node
-- ✅ Confirm storage and template paths are correct
-- ✅ Ensure network configuration is as expected
+- Verify hostname is correct
+- Check target node matches your Proxmox node
+- Confirm storage and template paths are correct
+- Ensure network configuration is as expected
 
 ---
 
@@ -669,15 +669,15 @@ terraform destroy
 
 **What gets deleted:**
 
-- ✅ LXC container (VMID 100)
-- ✅ Container disk (rootfs)
-- ✅ All container data
+- LXC container (VMID 100)
+- Container disk (rootfs)
+- All container data
 
 **What remains:**
 
-- ❌ Terraform state file (`terraform.tfstate`)
-- ❌ Template (still available for reuse)
-- ❌ Proxmox node and storage
+- Terraform state file (`terraform.tfstate`)
+- Template (still available for reuse)
+- Proxmox node and storage
 
 ---
 
@@ -879,11 +879,11 @@ Instead of `.env`, consider:
 
 If you encounter issues:
 
-1. ✅ Check this README's [Troubleshooting](#troubleshooting) section
-2. ✅ Review Terraform plan output carefully
-3. ✅ Check Proxmox logs: `/var/log/pve/`
-4. ✅ Verify all prerequisites are met
-5. ✅ Open an issue in the repository with:
+1. Check this README's [Troubleshooting](#troubleshooting) section
+2. Review Terraform plan output carefully
+3. Check Proxmox logs: `/var/log/pve/`
+4. Verify all prerequisites are met
+5. Open an issue in the repository with:
    - Terraform version
    - Provider version
    - Error messages

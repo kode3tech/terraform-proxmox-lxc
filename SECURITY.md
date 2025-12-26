@@ -124,7 +124,7 @@ unprivileged = false
 
 **We take security seriously.** If you discover a security vulnerability, please follow these guidelines:
 
-### 🔒 Private Disclosure (Preferred)
+### Private Disclosure (Preferred)
 
 **DO NOT** create a public GitHub issue for security vulnerabilities.
 
@@ -321,4 +321,4 @@ This module follows these security principles:
 ---
 
 **Last Updated:** 2025-12-26
-**Policy Version:** 1.1.1
+**Policy Version:** 1.1.2

@@ -8,14 +8,14 @@
 
 <!-- Mark the relevant option with an "x" -->
 
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📚 Documentation update
-- [ ] 🧪 Test improvements
-- [ ] 🔧 Configuration/infrastructure changes
-- [ ] ♻️ Code refactoring (no functional changes)
-- [ ] ⚡ Performance improvement
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Test improvements
+- [ ] Configuration/infrastructure changes
+- [ ] Code refactoring (no functional changes)
+- [ ] Performance improvement
 
 ### Related Issue
 
@@ -231,4 +231,4 @@ new_variable = "value"
 
 ---
 
-<!-- Thank you for contributing! 🚀 -->
+<!-- Thank you for contributing! -->

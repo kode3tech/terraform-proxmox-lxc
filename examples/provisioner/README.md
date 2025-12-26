@@ -4,7 +4,7 @@ This example demonstrates how to use the **remote-exec provisioner** to automati
 
 ## OpenTofu Compatibility
 
-✅ **This module is fully compatible with OpenTofu!**
+**This module is fully compatible with OpenTofu!**
 
 All `terraform` commands in this guide can be replaced with `tofu`:
 
@@ -18,11 +18,11 @@ tofu init && tofu apply
 
 ## What This Example Creates
 
-- ✅ **LXC container** with static IP (192.168.1.220/24)
-- ✅ **Docker installed** automatically via external script
-- ✅ **SSH key authentication** configured
-- ✅ **Nested virtualization** enabled (required for Docker)
-- ✅ **Automatic provisioning** on first boot
+- **LXC container** with static IP (192.168.1.220/24)
+- **Docker installed** automatically via external script
+- **SSH key authentication** configured
+- **Nested virtualization** enabled (required for Docker)
+- **Automatic provisioning** on first boot
 
 ## What is remote-exec Provisioner?
 
@@ -31,11 +31,11 @@ The `remote-exec` provisioner executes commands **inside the container** via SSH
 | Feature | Provisioner (remote-exec) | Hookscript |
 |---------|---------------------------|------------|
 | **Execution location** | Inside container (via SSH) | Proxmox host |
-| **Manual upload required** | ❌ No (embedded in Terraform) | ✅ Yes (upload to Proxmox) |
+| **Manual upload required** | No (embedded in Terraform) | Yes (upload to Proxmox) |
 | **When executes** | Once after creation | Every lifecycle event |
 | **Access to container** | Via SSH | Via `pct exec` |
 | **Language** | Any (bash, python, etc.) | Perl only |
-| **Network required** | ✅ Yes (static IP) | ❌ No |
+| **Network required** | Yes (static IP) | No |
 | **Best for** | Initial configuration | Lifecycle management |
 
 ## Provisioner Methods Comparison
@@ -48,7 +48,7 @@ This module supports **three** provisioning methods:
 provisioner_script_path = "${path.module}/scripts/install-docker.sh"
 ```
 
-**✅ Best for:**
+**Best for:**
 - Complex multi-step installations
 - Reusable scripts across projects
 - Better maintainability and version control
@@ -68,7 +68,7 @@ See [provisioner-multi-scripts example](../provisioner-multi-scripts)
 provisioner_scripts_dir = "${path.module}/scripts"
 ```
 
-**✅ Best for:**
+**Best for:**
 - Modular provisioning with multiple logical steps
 - Ordered execution (01-, 02-, 03- prefixes)
 - Team collaboration (different scripts for different tasks)
@@ -90,7 +90,7 @@ provisioner_commands = [
 ]
 ```
 
-**✅ Best for:**
+**Best for:**
 - Simple one-liners
 - Quick testing
 - Minimal configuration
@@ -116,13 +116,13 @@ provisioner_commands = [
 
 ### 3. Network Requirements
 
-⚠️ **CRITICAL**: Static IP is **required** for provisioners!
+WARNING: **CRITICAL**: Static IP is **required** for provisioners!
 
 ```hcl
-# ✅ CORRECT - Static IP
+# CORRECT - Static IP
 network_ip = "192.168.1.220/24"
 
-# ❌ WRONG - DHCP won't work with provisioners
+# WRONG - DHCP won't work with provisioners
 network_ip = "dhcp"
 ```
 
@@ -729,7 +729,7 @@ ssh root@192.168.1.220 "docker run hello-world"
 
 ### When to Use This Example
 
-✅ **Use external script when:**
+**Use external script when:**
 - Installing complex software (Docker, Kubernetes, databases)
 - Script is reusable across multiple projects
 - Need version control and code review for provisioning logic
@@ -740,7 +740,7 @@ ssh root@192.168.1.220 "docker run hello-world"
 
 See [provisioner-multi-scripts](../provisioner-multi-scripts)
 
-✅ **Use multiple scripts when:**
+**Use multiple scripts when:**
 - Provisioning has distinct logical phases
 - Want to reuse individual scripts across projects
 - Different team members maintain different parts
@@ -760,7 +760,7 @@ scripts/
 
 See module documentation or [basic example](../basic)
 
-✅ **Use inline commands when:**
+**Use inline commands when:**
 - Very simple provisioning (1-5 commands)
 - Quick testing
 - No reusability needed
@@ -785,14 +785,14 @@ terraform destroy  # or: tofu destroy
 ```
 
 **What gets deleted:**
-- ✅ Container (VMID 400)
-- ✅ Container disk
-- ✅ Provisioner resource
+- Container (VMID 400)
+- Container disk
+- Provisioner resource
 
 **What remains:**
-- ❌ LXC template
-- ❌ SSH keys
-- ❌ Scripts (local files)
+- LXC template
+- SSH keys
+- Scripts (local files)
 
 ---
 
@@ -865,13 +865,13 @@ Before using in production:
 
 This example demonstrates:
 
-✅ **Single external script** provisioning for maintainability
-✅ **SSH key authentication** for security
-✅ **Docker installation** as real-world use case
-✅ **Static IP requirement** for reliable SSH connection
-✅ **Change detection** via script MD5 hash
-✅ **Error handling** with proper script practices
-✅ **Production-ready** approach to container provisioning
+**Single external script** provisioning for maintainability
+**SSH key authentication** for security
+**Docker installation** as real-world use case
+**Static IP requirement** for reliable SSH connection
+**Change detection** via script MD5 hash
+**Error handling** with proper script practices
+**Production-ready** approach to container provisioning
 
 Use this as a template for your automated LXC container configuration! 🚀
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -4,7 +4,7 @@ This example demonstrates how to use **Proxmox hookscripts** for LXC container l
 
 ## OpenTofu Compatibility
 
-✅ **This module is fully compatible with OpenTofu!**
+**This module is fully compatible with OpenTofu!**
 
 All `terraform` commands in this guide can be replaced with `tofu`:
 
@@ -18,12 +18,12 @@ tofu init && tofu apply
 
 ## What This Example Creates
 
-- ✅ **LXC container** with static IP (192.168.1.210/24)
-- ✅ **Hookscript** attached to container lifecycle
-- ✅ **Custom logic** executed during start/stop events
-- ✅ **Host-side execution** (runs on Proxmox, not in container)
-- ✅ **Event logging** for debugging and auditing
-- ✅ **SSH key authentication** configured
+- **LXC container** with static IP (192.168.1.210/24)
+- **Hookscript** attached to container lifecycle
+- **Custom logic** executed during start/stop events
+- **Host-side execution** (runs on Proxmox, not in container)
+- **Event logging** for debugging and auditing
+- **SSH key authentication** configured
 
 ## What Are Hookscripts?
 
@@ -36,10 +36,10 @@ tofu init && tofu apply
 | **Execution location** | Proxmox host | Inside container (via SSH) |
 | **Language** | Perl only | Any (bash, python, etc.) |
 | **When executes** | Every lifecycle event | Once after creation |
-| **Manual upload required** | ✅ Yes (to Proxmox) | ❌ No (embedded in Terraform) |
-| **Network required** | ❌ No | ✅ Yes (SSH) |
+| **Manual upload required** | Yes (to Proxmox) | No (embedded in Terraform) |
+| **Network required** | No | Yes (SSH) |
 | **Access to container** | Via `pct exec` | Via SSH |
-| **Access to host** | Direct (runs as root) | ❌ No |
+| **Access to host** | Direct (runs as root) | No |
 | **Best for** | Lifecycle management | Initial configuration |
 
 ### Lifecycle Phases
@@ -64,12 +64,12 @@ Hookscripts can execute during **4 lifecycle phases**:
 
 ### Use Hookscripts When:
 
-✅ Need to execute on **Proxmox host** (not inside container)
-✅ Need to run on **every start/stop** (not just once)
-✅ Need access to **host resources** (storage, networking, other containers)
-✅ Managing **lifecycle events** (mounting, backups, DNS updates)
-✅ Container **may not have network** during execution
-✅ Need to execute **before container fully starts**
+Need to execute on **Proxmox host** (not inside container)
+Need to run on **every start/stop** (not just once)
+Need access to **host resources** (storage, networking, other containers)
+Managing **lifecycle events** (mounting, backups, DNS updates)
+Container **may not have network** during execution
+Need to execute **before container fully starts**
 
 **Example use cases:**
 - Mount NFS share on host before container starts
@@ -80,11 +80,11 @@ Hookscripts can execute during **4 lifecycle phases**:
 
 ### Use Provisioners When:
 
-✅ Need to execute **inside container** (not on host)
-✅ Only need to run **once after creation**
-✅ Installing **software inside container** (Docker, apps)
-✅ Configuring **container OS** (users, timezone, packages)
-✅ Container **has network access**
+Need to execute **inside container** (not on host)
+Only need to run **once after creation**
+Installing **software inside container** (Docker, apps)
+Configuring **container OS** (users, timezone, packages)
+Container **has network access**
 
 **Example use cases:**
 - Install Docker inside container
@@ -178,7 +178,7 @@ cat hookscript.pl
 
 ### Step 3: Upload Hookscript to Proxmox
 
-⚠️ **CRITICAL STEP**: Hookscripts must be manually uploaded to Proxmox!
+WARNING: **CRITICAL STEP**: Hookscripts must be manually uploaded to Proxmox!
 
 ```bash
 # Upload hookscript to Proxmox snippets directory
@@ -811,14 +811,14 @@ terraform destroy  # or: tofu destroy
 ```
 
 **What gets deleted:**
-- ✅ Container (VMID 300)
-- ✅ Container disk
+- Container (VMID 300)
+- Container disk
 
 **What remains:**
-- ❌ Hookscript on Proxmox (`/var/lib/vz/snippets/hookscript.pl`)
-- ❌ Hookscript logs
-- ❌ SSH keys
-- ❌ LXC template
+- Hookscript on Proxmox (`/var/lib/vz/snippets/hookscript.pl`)
+- Hookscript logs
+- SSH keys
+- LXC template
 
 **Manual cleanup:**
 
@@ -909,13 +909,13 @@ Before using in production:
 
 This example demonstrates:
 
-✅ **Hookscript integration** for lifecycle management
-✅ **Host-side execution** on Proxmox server
-✅ **All lifecycle phases** (pre/post start/stop)
-✅ **Manual upload workflow** to Proxmox storage
-✅ **Real-world use cases** (NFS, DNS, backups, monitoring)
-✅ **Debugging techniques** for hookscript development
-✅ **Complementary to provisioners** for complete automation
+**Hookscript integration** for lifecycle management
+**Host-side execution** on Proxmox server
+**All lifecycle phases** (pre/post start/stop)
+**Manual upload workflow** to Proxmox storage
+**Real-world use cases** (NFS, DNS, backups, monitoring)
+**Debugging techniques** for hookscript development
+**Complementary to provisioners** for complete automation
 
 Use this as a template for your Proxmox LXC lifecycle management! 🚀
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -4,7 +4,7 @@ Thank you for using the `terraform-proxmox-lxc` module! This document provides i
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 Before asking for help, please check our comprehensive documentation:
 
@@ -166,10 +166,10 @@ For bugs, errors, or specific problems:
 
 **Issue Types:**
 
-1. **🐛 Bug Report** - Something isn't working
-2. **✨ Feature Request** - Suggest a new feature
-3. **📚 Documentation Issue** - Docs are unclear or wrong
-4. **❓ Question** - General questions (prefer Discussions)
+1. **Bug Report** - Something isn't working
+2. **Feature Request** - Suggest a new feature
+3. **Documentation Issue** - Docs are unclear or wrong
+4. **Question** - General questions (prefer Discussions)
 
 **Before Creating an Issue:**
 - Search existing issues
@@ -226,7 +226,7 @@ Any other relevant information
 
 ---
 
-## 🚀 Feature Requests
+## Feature Requests
 
 We welcome feature requests! Before requesting:
 
@@ -264,18 +264,18 @@ Want to contribute? Amazing! Please read:
 
 **Ways to Contribute:**
 
-- 🐛 Report bugs
-- ✨ Suggest features
-- 📚 Improve documentation
-- 🧪 Add tests
-- 💻 Submit pull requests
-- 💬 Help others in discussions
-- ⭐ Star the repository
-- 🔄 Share with others
+- Report bugs
+- Suggest features
+- Improve documentation
+- Add tests
+- Submit pull requests
+- Help others in discussions
+- Star the repository
+- Share with others
 
 ---
 
-## 📖 Learning Resources
+## Learning Resources
 
 ### Terraform/OpenTofu
 
@@ -358,25 +358,25 @@ See [MATURITY_ASSESSMENT.md](MATURITY_ASSESSMENT.md) for:
 
 ---
 
-## ⭐ Show Your Support
+## Show Your Support
 
 If this module helps you, please:
 
-- ⭐ **Star the repository**
-- 🐦 **Share on social media**
-- 📝 **Write a blog post** about your experience
-- 💬 **Recommend to colleagues**
-- 🤝 **Contribute** improvements
+- **Star the repository**
+- **Share on social media**
+- **Write a blog post** about your experience
+- **Recommend to colleagues**
+- **Contribute** improvements
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the **MIT License** - see [LICENSE](LICENSE) for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Thanks to:
 
@@ -388,6 +388,6 @@ Thanks to:
 
 ---
 
-**Thank you for using terraform-proxmox-lxc!** 🚀
+**Thank you for using terraform-proxmox-lxc!**
 
 **Last Updated:** 2025-12-26

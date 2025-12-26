@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.2] - 2025-12-26
+
+### Changed
+- **Documentation professionalization**: Removed all decorative emojis from documentation
+  - Main documentation files: README.md, SUPPORT.md, SECURITY.md, pull_request_template.md
+  - All example READMEs: basic, advanced, provisioner, provisioner-multi-scripts, hookscript
+  - Improved professional appearance suitable for corporate environments
+  - Maintained all technical content and markdown formatting
+  - Cleaner, more formal documentation style
+
+---
+
 ## [1.1.1] - 2025-12-26
 
 ### Changed

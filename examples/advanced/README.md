@@ -4,7 +4,7 @@ This example demonstrates a **comprehensive configuration** using most available
 
 ## OpenTofu Compatibility
 
-✅ **This module is fully compatible with OpenTofu!**
+**This module is fully compatible with OpenTofu!**
 
 All `terraform` commands in this guide can be replaced with `tofu`:
 
@@ -18,30 +18,30 @@ tofu init && tofu apply
 
 ## What This Example Creates
 
-- ✅ **Production-grade LXC container** with custom VMID (200)
-- ✅ **Docker-ready environment** with nested virtualization
-- ✅ **Static IP configuration** (192.168.1.200/24)
-- ✅ **Resource limits** (8 cores, 4GB RAM, custom CPU weights)
-- ✅ **SSH key authentication** (secure, passwordless access)
-- ✅ **Protection enabled** (prevents accidental deletion)
-- ✅ **Auto-start on boot** with startup order
-- ✅ **Resource pool assignment** for organization
-- ✅ **Custom features** (nesting, FUSE, keyctl, NFS mounts)
+- **Production-grade LXC container** with custom VMID (200)
+- **Docker-ready environment** with nested virtualization
+- **Static IP configuration** (192.168.1.200/24)
+- **Resource limits** (8 cores, 4GB RAM, custom CPU weights)
+- **SSH key authentication** (secure, passwordless access)
+- **Protection enabled** (prevents accidental deletion)
+- **Auto-start on boot** with startup order
+- **Resource pool assignment** for organization
+- **Custom features** (nesting, FUSE, keyctl, NFS mounts)
 
 ## Features Demonstrated
 
-### 🔧 Resource Allocation
+### Resource Allocation
 - Custom VMID assignment (consistent IDs across environments)
 - CPU cores (8), limits (4), and units (4096) configuration
 - Memory (4096MB) and swap (2048MB) allocation
 - Bandwidth limiting (10MB/s I/O)
 
-### 💾 Storage
+### Storage
 - Custom storage pool selection
 - Root filesystem size (20GB)
 - I/O bandwidth limiting
 
-### 🌐 Networking
+### Networking
 - **Static IPv4** configuration with gateway
 - **IPv6 auto-configuration**
 - MTU customization (1450)
@@ -49,23 +49,23 @@ tofu init && tofu apply
 - VLAN support (commented example)
 - Proxmox firewall integration
 
-### 🚀 Advanced Features
+### Advanced Features
 - **Nested virtualization** (`nesting = true`) - Required for Docker/Podman
 - **FUSE mounts** (`fuse = true`) - Required for SSHFS and similar
 - **keyctl support** (`keyctl = true`) - Required for systemd features
 - **Custom mount types** (`mount = "nfs;cifs"`) - NFS and CIFS mounts
 
-### 🔐 Security & Access
+### Security & Access
 - **SSH public key authentication** (no passwords)
 - **Unprivileged container** (enhanced security)
 - **Protection enabled** (prevents accidental `terraform destroy`)
 
-### ⚡ High Availability
+### High Availability
 - **Startup order** configuration (automatic ordering on boot)
 - **Resource pool** assignment (`production`)
 - **HA state and group** (commented - requires cluster HA setup)
 
-### 📋 Metadata
+### Metadata
 - Custom description with environment info
 - Custom tags for organization and filtering
 
@@ -656,16 +656,16 @@ terraform destroy
 ```
 
 **What gets deleted:**
-- ✅ Container (VMID 200)
-- ✅ Container disk
-- ✅ All container data
-- ✅ Pool membership (pool itself remains)
+- Container (VMID 200)
+- Container disk
+- All container data
+- Pool membership (pool itself remains)
 
 **What remains:**
-- ❌ LXC template
-- ❌ Resource pool
-- ❌ Network configuration
-- ❌ SSH keys
+- LXC template
+- Resource pool
+- Network configuration
+- SSH keys
 
 ---
 
@@ -724,13 +724,13 @@ Before deploying to production:
 
 This advanced example demonstrates:
 
-✅ **Production-ready configuration** with resource limits and protection
-✅ **Docker support** via nested virtualization
-✅ **Static networking** with IPv4/IPv6
-✅ **Security** via SSH keys and unprivileged containers
-✅ **Organization** via resource pools and tags
-✅ **Automation** via startup ordering
-✅ **Flexibility** with advanced features (FUSE, keyctl, NFS)
+**Production-ready configuration** with resource limits and protection
+**Docker support** via nested virtualization
+**Static networking** with IPv4/IPv6
+**Security** via SSH keys and unprivileged containers
+**Organization** via resource pools and tags
+**Automation** via startup ordering
+**Flexibility** with advanced features (FUSE, keyctl, NFS)
 
 Use this as a template for your production LXC containers! 🚀
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
