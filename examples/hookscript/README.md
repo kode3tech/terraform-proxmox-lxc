@@ -942,7 +942,18 @@ No resources.
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_hookscript"></a> [hookscript](#input\_hookscript) | Path to hookscript in Proxmox storage (format: storage:snippets/script.sh) | `string` | `"local:snippets/hookscript.sh"` | no |
+| <a name="input_hostname"></a> [hostname](#input\_hostname) | Hostname for the LXC container | `string` | `"lxc-hookscript-demo"` | no |
+| <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to attach the container to | `string` | `"vmbr0"` | no |
+| <a name="input_network_gateway"></a> [network\_gateway](#input\_network\_gateway) | Network gateway IP address | `string` | `"192.168.1.1"` | no |
+| <a name="input_network_ip"></a> [network\_ip](#input\_network\_ip) | Static IP address with CIDR notation | `string` | `"192.168.1.210/24"` | no |
+| <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | OS template to use for the container | `string` | `"nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"` | no |
+| <a name="input_root_password"></a> [root\_password](#input\_root\_password) | Root password for the container | `string` | `"YourSecurePassword123!"` | no |
+| <a name="input_rootfs_storage"></a> [rootfs\_storage](#input\_rootfs\_storage) | Storage pool for the root filesystem | `string` | `"nas"` | no |
+| <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Proxmox node name where the LXC container will be created | `string` | `"pve01"` | no |
+| <a name="input_vmid"></a> [vmid](#input\_vmid) | Unique container ID in Proxmox | `number` | `300` | no |
 
 ## Outputs
 

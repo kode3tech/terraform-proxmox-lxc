@@ -20,14 +20,14 @@ module "lxc_advanced" {
   # - Only lowercase letters, numbers, and hyphens allowed
   # - Must start and end with alphanumeric character
   # - This will be the hostname inside the container
-  hostname = "docker-prd-app-01"
+  hostname = var.hostname
 
   # target_node: Proxmox cluster node name where container will be created
   # - Must match exactly the node name in Proxmox
   # - Required even in single-node environments
   # - Example: "pve", "pve01", "proxmox-node-1"
   # ⚠️  IMMUTABLE: Cannot be changed after creation (requires destroy/recreate)
-  target_node = "pve01"
+  target_node = var.target_node
 
   # ostemplate: Full path to the operating system template
   # - Format: "storage:vztmpl/template-name.tar.{gz|xz|zst}"
@@ -35,7 +35,7 @@ module "lxc_advanced" {
   # - Common templates: ubuntu, debian, alpine, centos, rocky
   # - Check available templates: pveam available
   # ⚠️  IMMUTABLE: Cannot be changed after creation (requires destroy/recreate)
-  ostemplate = "nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
+  ostemplate = var.ostemplate
 
   # ---------------------------------------------------------------------------
   # RESOURCE ALLOCATION
@@ -45,7 +45,7 @@ module "lxc_advanced" {
   # - If null or omitted, Proxmox auto-assigns next available ID
   # - Useful for maintaining consistent IDs across environments
   # - Avoid IDs below 100 (reserved for system VMs)
-  vmid = 200
+  vmid = var.vmid
 
   # arch: Container CPU architecture
   # - Options: "amd64" (default), "arm64", "armhf", "i386"
@@ -331,7 +331,8 @@ module "lxc_advanced" {
   # - Installed for root user
   # - RECOMMENDED: always use SSH keys instead of password
   # - Supports RSA, Ed25519, ECDSA
-  ssh_public_keys = file("${path.module}/.ssh/id_rsa.pub")
+  # COMMENTED: Uncomment and provide your real SSH public key
+  # ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   # password: Container root user password
   # - String with password in plain text

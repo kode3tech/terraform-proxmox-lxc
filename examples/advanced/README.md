@@ -757,7 +757,12 @@ No resources.
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_hostname"></a> [hostname](#input\_hostname) | Hostname for the LXC container | `string` | `"docker-prd-app-01"` | no |
+| <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | OS template to use for the container | `string` | `"nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"` | no |
+| <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Proxmox node name where the LXC container will be created | `string` | `"pve01"` | no |
+| <a name="input_vmid"></a> [vmid](#input\_vmid) | Unique container ID in Proxmox | `number` | `200` | no |
 
 ## Outputs
 

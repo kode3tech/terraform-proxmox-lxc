@@ -14,35 +14,31 @@ module "lxc_container" {
   # ---------------------------------------------------------------------------
   # REQUIRED ARGUMENTS
   # ---------------------------------------------------------------------------
-  hostname    = "app-dev-web-01"                                        # Container hostname
-  target_node = "pve01"                                                 # Proxmox cluster node name
-  ostemplate  = "nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz" # Volume identifier pointing to OS template or backup file
+  hostname    = var.hostname    # Container hostname
+  target_node = var.target_node # Proxmox cluster node name
+  ostemplate  = var.ostemplate  # Volume identifier pointing to OS template or backup file
 
   # ---------------------------------------------------------------------------
   # STORAGE CONFIGURATION
   # ---------------------------------------------------------------------------
-  rootfs_storage = "nas" # Storage pool for root filesystem (change to your storage name)
-  rootfs_size    = "8G"  # Root filesystem size
+  rootfs_storage = var.rootfs_storage # Storage pool for root filesystem
+  rootfs_size    = "8G"               # Root filesystem size
 
   # ---------------------------------------------------------------------------
   # NETWORK CONFIGURATION
   # ---------------------------------------------------------------------------
-  network_bridge = "vmbr0" # Bridge to attach
-  network_ip     = "dhcp"  # Use DHCP for automatic IP assignment
+  network_bridge = var.network_bridge # Bridge to attach
+  network_ip     = "dhcp"             # Use DHCP for automatic IP assignment
 
   # ---------------------------------------------------------------------------
   # AUTHENTICATION & ACCESS
   # ---------------------------------------------------------------------------
   # IMPORTANT: Without authentication, you can only access via Proxmox console!
-  # Uncomment ONE of the options below to enable SSH access:
-  # ---------------------------------------------------------------------------
-  # Option 1: SSH Public Key (RECOMMENDED for production)
-  # Inject your SSH public key to access as root via SSH
+  # This example uses password authentication for simplicity.
+  # For production, use ssh_public_keys instead:
   # ssh_public_keys = file("~/.ssh/id_rsa.pub")
-
-  # Option 2: Root Password (NOT RECOMMENDED - use only for testing)
-  # Set root password for console/SSH access
-  password = "YourSecurePassword123!"
+  # ---------------------------------------------------------------------------
+  password = var.root_password
 
   # Note: With DHCP, you'll need to check the IP after creation:
   # - Via Proxmox UI: Container > Summary > IP Address

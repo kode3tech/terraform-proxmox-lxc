@@ -38,12 +38,12 @@ module "lxc_with_multi_scripts" {
   source = "../.."
 
   # Required parameters
-  hostname    = "lxc-multi-scripts-demo"
-  target_node = "pve01"
-  ostemplate  = "nas:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+  hostname    = var.hostname
+  target_node = var.target_node
+  ostemplate  = var.ostemplate
 
   # Basic configuration
-  vmid         = 401
+  vmid         = var.vmid
   cores        = 2
   memory       = 2048
   swap         = 512
@@ -52,16 +52,20 @@ module "lxc_with_multi_scripts" {
   start        = true
 
   # Root filesystem
-  rootfs_storage = "nas"
+  rootfs_storage = var.rootfs_storage
   rootfs_size    = "20G"
 
   # Network configuration (MUST be static IP for provisioner)
-  network_bridge  = "vmbr0"
-  network_ip      = "192.168.1.221/24"
-  network_gateway = "192.168.1.1"
+  network_bridge  = var.network_bridge
+  network_ip      = var.network_ip
+  network_gateway = var.network_gateway
 
   # SSH public key (REQUIRED for SSH key authentication)
-  ssh_public_keys = file("${path.module}/.ssh/id_rsa.pub")
+  # COMMENTED: Uncomment and provide your real SSH public key for testing
+  # ssh_public_keys = file("~/.ssh/id_rsa.pub")
+
+  # For testing without SSH keys, use password instead:
+  password = "YourSecurePassword123!"
 
   # Features
   features = {

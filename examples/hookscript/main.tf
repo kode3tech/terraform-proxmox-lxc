@@ -20,12 +20,12 @@ module "lxc_with_hookscript" {
   source = "../.."
 
   # Required parameters
-  hostname    = "lxc-hookscript-demo"
-  target_node = "pve01"
-  ostemplate  = "nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
+  hostname    = var.hostname
+  target_node = var.target_node
+  ostemplate  = var.ostemplate
 
   # Basic configuration
-  vmid         = 300
+  vmid         = var.vmid
   cores        = 2
   memory       = 2048
   swap         = 1024
@@ -34,13 +34,13 @@ module "lxc_with_hookscript" {
   start        = true
 
   # Root filesystem
-  rootfs_storage = "nas"
+  rootfs_storage = var.rootfs_storage
   rootfs_size    = "8G"
 
   # Network configuration
-  network_bridge  = "vmbr0"
-  network_ip      = "192.168.1.210/24"
-  network_gateway = "192.168.1.1"
+  network_bridge  = var.network_bridge
+  network_ip      = var.network_ip
+  network_gateway = var.network_gateway
 
   # =============================================================================
   # HOOKSCRIPT CONFIGURATION
@@ -54,14 +54,15 @@ module "lxc_with_hookscript" {
   # - pre-stop:   Before container stops
   # - post-stop:  After container stops
   # =============================================================================
-  hookscript = "local:snippets/hookscript.sh"
+  hookscript = var.hookscript
 
   # SSH access (recommended for post-start configuration)
-  ssh_public_keys = file("${path.module}/.ssh/id_rsa.pub")
+  # COMMENTED: Uncomment and provide your real SSH public key for testing
+  # ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
   # Root Password (NOT RECOMMENDED - use only for testing)
   # Set root password for console/SSH access
-  password = "YourSecurePassword123!"
+  password = var.root_password
 
   # Features
   features = {
