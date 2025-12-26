@@ -209,12 +209,13 @@ locals {
   ssh_host = var.provisioner_ssh_host != null ? var.provisioner_ssh_host : local.extracted_ip
 
   # Process SSH private key (file path or content)
-  # If it starts with "-----BEGIN", it's key content; otherwise treat as file path
-  # Unmark sensitive value for conditional logic, then re-mark the result
-  ssh_private_key = var.provisioner_ssh_private_key != null ? (
-    !can(regex("^-----BEGIN", nonsensitive(var.provisioner_ssh_private_key))) ?
-    sensitive(file(nonsensitive(var.provisioner_ssh_private_key))) :
-    sensitive(nonsensitive(var.provisioner_ssh_private_key))
+  # Unmark sensitive value first, do all operations on unmarked value, then mark result
+  # If null, return null; if starts with "-----BEGIN", use as-is; otherwise read from file
+  ssh_private_key_unmarked = var.provisioner_ssh_private_key != null ? nonsensitive(var.provisioner_ssh_private_key) : null
+  ssh_private_key = local.ssh_private_key_unmarked != null ? (
+    can(regex("^-----BEGIN", local.ssh_private_key_unmarked)) ?
+    sensitive(local.ssh_private_key_unmarked) :
+    sensitive(file(local.ssh_private_key_unmarked))
   ) : null
 
   # Determine execution mode: scripts_dir > script_path > commands
