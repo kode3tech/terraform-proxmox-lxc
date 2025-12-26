@@ -68,7 +68,7 @@ module "lxc_with_script" {
   provisioner_enabled = true
   # SSH connection configuration
   provisioner_ssh_user        = "root"
-  provisioner_ssh_private_key = "~/.ssh/id_rsa" # File path (recommended)
+  provisioner_ssh_private_key = file("~/.ssh/id_rsa") # Use file() to read key
   # Execute external script (recommended for complex provisioning)
   provisioner_script_path = "${path.module}/scripts/install-docker.sh"
 

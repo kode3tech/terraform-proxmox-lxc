@@ -693,7 +693,7 @@ variable "provisioner_ssh_host" {
 }
 
 variable "provisioner_ssh_private_key" {
-  description = "SSH private key for remote-exec provisioner. Can be file path or key content. Required when provisioner_enabled = true"
+  description = "SSH private key for remote-exec provisioner. Use file() function to read from path: file(\"~/.ssh/id_rsa\"). Required when provisioner_enabled = true"
   type        = string
   default     = null
   sensitive   = true

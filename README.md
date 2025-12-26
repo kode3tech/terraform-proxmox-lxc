@@ -430,7 +430,7 @@ No modules.
 | <a name="input_provisioner_script_path"></a> [provisioner\_script\_path](#input\_provisioner\_script\_path) | Path to shell script file to execute inside the container after initialization. Mutually exclusive with provisioner\_commands. Script will be read and executed inline | `string` | `null` | no |
 | <a name="input_provisioner_scripts_dir"></a> [provisioner\_scripts\_dir](#input\_provisioner\_scripts\_dir) | Directory containing shell scripts (*.sh) to execute sequentially.<br>Scripts are executed in lexicographic order (use numeric prefixes like 01-, 02- to control order).<br>Mutually exclusive with provisioner\_commands and provisioner\_script\_path.<br><br>Example structure:<br>  scripts/<br>    01-update-system.sh<br>    02-install-docker.sh<br>    03-configure-app.sh | `string` | `null` | no |
 | <a name="input_provisioner_ssh_host"></a> [provisioner\_ssh\_host](#input\_provisioner\_ssh\_host) | SSH host/IP for remote-exec provisioner. If not provided, will attempt to extract from network\_ip | `string` | `null` | no |
-| <a name="input_provisioner_ssh_private_key"></a> [provisioner\_ssh\_private\_key](#input\_provisioner\_ssh\_private\_key) | SSH private key for remote-exec provisioner. Can be file path or key content. Required when provisioner\_enabled = true | `string` | `null` | no |
+| <a name="input_provisioner_ssh_private_key"></a> [provisioner\_ssh\_private\_key](#input\_provisioner\_ssh\_private\_key) | SSH private key for remote-exec provisioner. Use file() function to read from path: file("~/.ssh/id\_rsa"). Required when provisioner\_enabled = true | `string` | `null` | no |
 | <a name="input_provisioner_ssh_user"></a> [provisioner\_ssh\_user](#input\_provisioner\_ssh\_user) | SSH user for remote-exec provisioner. Defaults to 'root' for LXC containers | `string` | `"root"` | no |
 | <a name="input_provisioner_timeout"></a> [provisioner\_timeout](#input\_provisioner\_timeout) | Timeout for SSH connection in the provisioner (e.g., '5m', '30s') | `string` | `"5m"` | no |
 | <a name="input_restore"></a> [restore](#input\_restore) | Mark the container creation/update as a restore task. Default is false | `bool` | `false` | no |
@@ -584,3 +584,107 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Telmate/proxmox](https://github.com/Telmate/terraform-provider-proxmox) - Terraform provider for Proxmox
 - [Proxmox VE](https://www.proxmox.com/en/proxmox-ve) - Open-source virtualization platform
 - Inspired by best practices from [terraform-aws-modules](https://github.com/terraform-aws-modules) and [terraform-google-modules](https://github.com/terraform-google-modules)
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.0 |
+| <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) | 3.0.2-rc07 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_null"></a> [null](#provider\_null) | 3.2.4 |
+| <a name="provider_proxmox"></a> [proxmox](#provider\_proxmox) | 3.0.2-rc07 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [null_resource.provisioner](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| proxmox_lxc.this | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_additional_networks"></a> [additional\_networks](#input\_additional\_networks) | Additional network interfaces beyond eth0. Each network must have a unique name (eth1, eth2, etc.) | <pre>list(object({<br>    name     = string           # Interface name (e.g., "eth1", "eth2")<br>    bridge   = string           # Bridge to attach to (e.g., "vmbr1")<br>    ip       = optional(string) # IPv4 address in CIDR or "dhcp" or "manual"<br>    gw       = optional(string) # IPv4 gateway<br>    ip6      = optional(string) # IPv6 address in CIDR or "auto", "dhcp", "manual"<br>    gw6      = optional(string) # IPv6 gateway<br>    hwaddr   = optional(string) # MAC address<br>    mtu      = optional(number) # MTU (576-65536)<br>    rate     = optional(number) # Rate limit in Mbps<br>    tag      = optional(number) # VLAN tag<br>    firewall = optional(bool)   # Enable firewall<br>  }))</pre> | `[]` | no |
+| <a name="input_arch"></a> [arch](#input\_arch) | Container OS architecture type | `string` | `"amd64"` | no |
+| <a name="input_bwlimit"></a> [bwlimit](#input\_bwlimit) | Override I/O bandwidth limit in KiB/s for disk operations | `number` | `null` | no |
+| <a name="input_cmode"></a> [cmode](#input\_cmode) | Console mode. 'tty' tries to open tty devices, 'console' attaches to /dev/console, 'shell' invokes a shell. Default is 'tty' | `string` | `"tty"` | no |
+| <a name="input_console"></a> [console](#input\_console) | Attach a console device to the container. Default is true | `bool` | `true` | no |
+| <a name="input_cores"></a> [cores](#input\_cores) | Number of CPU cores assigned to the container. Container can use all available cores by default | `number` | `null` | no |
+| <a name="input_cpulimit"></a> [cpulimit](#input\_cpulimit) | Limit CPU usage by this number. Default 0 means no limit. Set to 2 to limit container to 2 cores worth of CPU time | `number` | `0` | no |
+| <a name="input_cpuunits"></a> [cpuunits](#input\_cpuunits) | CPU weight that the container possesses. Used by kernel scheduler to distribute CPU time. Default is 1024 | `number` | `1024` | no |
+| <a name="input_description"></a> [description](#input\_description) | Container description seen in the Proxmox web interface | `string` | `""` | no |
+| <a name="input_features"></a> [features](#input\_features) | Object for allowing the container to access advanced features (FUSE mounts, nesting, keyctl, allowed mount types) | <pre>object({<br>    fuse    = optional(bool, false)<br>    keyctl  = optional(bool, false)<br>    mount   = optional(string, null)<br>    nesting = optional(bool, false)<br>  })</pre> | `null` | no |
+| <a name="input_force"></a> [force](#input\_force) | Allow overwriting of pre-existing containers. Default is false | `bool` | `false` | no |
+| <a name="input_hagroup"></a> [hagroup](#input\_hagroup) | HA group identifier the resource belongs to. Requires hastate to be set | `string` | `null` | no |
+| <a name="input_hastate"></a> [hastate](#input\_hastate) | Requested HA state for the resource: started, stopped, enabled, disabled, or ignored | `string` | `null` | no |
+| <a name="input_hookscript"></a> [hookscript](#input\_hookscript) | Volume identifier to a script that will be executed during various steps in the container's lifetime | `string` | `null` | no |
+| <a name="input_hostname"></a> [hostname](#input\_hostname) | Hostname for the LXC container | `string` | n/a | yes |
+| <a name="input_memory"></a> [memory](#input\_memory) | Amount of RAM to assign to the container in MB | `number` | `512` | no |
+| <a name="input_mountpoints"></a> [mountpoints](#input\_mountpoints) | Additional storage volumes to mount in the container. Supports storage-backed, bind mounts, and device mounts | <pre>list(object({<br>    slot      = string         # Mount point identifier (e.g., "0", "1", "2")<br>    storage   = string         # Storage name, directory path, or device path<br>    mp        = string         # Mount point path inside container (e.g., "/mnt/data")<br>    size      = string         # Size with unit (e.g., "10G", "500M", "1T")<br>    acl       = optional(bool) # Enable ACL support (default: false)<br>    backup    = optional(bool) # Include in backups (default: false)<br>    quota     = optional(bool) # Enable user quotas (default: false)<br>    replicate = optional(bool) # Include in storage replica job (default: false)<br>    shared    = optional(bool) # Mark as available on all nodes (default: false)<br>  }))</pre> | `[]` | no |
+| <a name="input_nameserver"></a> [nameserver](#input\_nameserver) | DNS server IP address used by the container. Uses Proxmox host values if not specified | `string` | `null` | no |
+| <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Bridge to attach the network interface to (e.g., 'vmbr0') | `string` | `"vmbr0"` | no |
+| <a name="input_network_firewall"></a> [network\_firewall](#input\_network\_firewall) | Enable the Proxmox firewall on the network interface | `bool` | `false` | no |
+| <a name="input_network_gateway"></a> [network\_gateway](#input\_network\_gateway) | IPv4 address belonging to the network interface's default gateway | `string` | `null` | no |
+| <a name="input_network_gw6"></a> [network\_gw6](#input\_network\_gw6) | IPv6 address of the network interface's default gateway | `string` | `null` | no |
+| <a name="input_network_hwaddr"></a> [network\_hwaddr](#input\_network\_hwaddr) | Common MAC address with the I/G (Individual/Group) bit not set. Automatically determined if not set | `string` | `null` | no |
+| <a name="input_network_ip"></a> [network\_ip](#input\_network\_ip) | IPv4 address of the network interface. Can be static IPv4 (CIDR notation), 'dhcp', or 'manual' | `string` | `"dhcp"` | no |
+| <a name="input_network_ip6"></a> [network\_ip6](#input\_network\_ip6) | IPv6 address of the network interface. Can be static IPv6 (CIDR notation), 'auto', 'dhcp', or 'manual' | `string` | `null` | no |
+| <a name="input_network_mtu"></a> [network\_mtu](#input\_network\_mtu) | MTU (Maximum Transmission Unit) for the network interface | `number` | `null` | no |
+| <a name="input_network_rate"></a> [network\_rate](#input\_network\_rate) | Rate limiting on the network interface in Mbps (Megabits per second) | `number` | `null` | no |
+| <a name="input_network_vlan"></a> [network\_vlan](#input\_network\_vlan) | VLAN tag of the network interface. Automatically determined if not set | `number` | `null` | no |
+| <a name="input_onboot"></a> [onboot](#input\_onboot) | Specifies whether the container will start on boot. Default is false | `bool` | `false` | no |
+| <a name="input_ostemplate"></a> [ostemplate](#input\_ostemplate) | Volume identifier that points to the OS template or backup file (e.g., 'local:vztmpl/ubuntu-22.04-standard\_22.04-1\_amd64.tar.zst') | `string` | n/a | yes |
+| <a name="input_ostype"></a> [ostype](#input\_ostype) | OS type used by LXC to set up and configure the container. Automatically determined if not set | `string` | `null` | no |
+| <a name="input_password"></a> [password](#input\_password) | Root password inside the container. Use SSH keys instead for better security | `string` | `null` | no |
+| <a name="input_pool"></a> [pool](#input\_pool) | Name of the Proxmox resource pool to add this container to | `string` | `null` | no |
+| <a name="input_protection"></a> [protection](#input\_protection) | Enable protection flag to prevent the container and its disk from being removed/updated. Default is false | `bool` | `false` | no |
+| <a name="input_provisioner_commands"></a> [provisioner\_commands](#input\_provisioner\_commands) | List of commands to execute inside the container after initialization. Requires provisioner\_enabled = true. Mutually exclusive with provisioner\_script\_path | `list(string)` | `[]` | no |
+| <a name="input_provisioner_enabled"></a> [provisioner\_enabled](#input\_provisioner\_enabled) | Enable remote-exec provisioner to run commands after container initialization | `bool` | `false` | no |
+| <a name="input_provisioner_script_path"></a> [provisioner\_script\_path](#input\_provisioner\_script\_path) | Path to shell script file to execute inside the container after initialization. Mutually exclusive with provisioner\_commands. Script will be read and executed inline | `string` | `null` | no |
+| <a name="input_provisioner_scripts_dir"></a> [provisioner\_scripts\_dir](#input\_provisioner\_scripts\_dir) | Directory containing shell scripts (*.sh) to execute sequentially.<br>Scripts are executed in lexicographic order (use numeric prefixes like 01-, 02- to control order).<br>Mutually exclusive with provisioner\_commands and provisioner\_script\_path.<br><br>Example structure:<br>  scripts/<br>    01-update-system.sh<br>    02-install-docker.sh<br>    03-configure-app.sh | `string` | `null` | no |
+| <a name="input_provisioner_ssh_host"></a> [provisioner\_ssh\_host](#input\_provisioner\_ssh\_host) | SSH host/IP for remote-exec provisioner. If not provided, will attempt to extract from network\_ip | `string` | `null` | no |
+| <a name="input_provisioner_ssh_private_key"></a> [provisioner\_ssh\_private\_key](#input\_provisioner\_ssh\_private\_key) | SSH private key for remote-exec provisioner. Use file() function to read from path: file("~/.ssh/id\_rsa"). Required when provisioner\_enabled = true | `string` | `null` | no |
+| <a name="input_provisioner_ssh_user"></a> [provisioner\_ssh\_user](#input\_provisioner\_ssh\_user) | SSH user for remote-exec provisioner. Defaults to 'root' for LXC containers | `string` | `"root"` | no |
+| <a name="input_provisioner_timeout"></a> [provisioner\_timeout](#input\_provisioner\_timeout) | Timeout for SSH connection in the provisioner (e.g., '5m', '30s') | `string` | `"5m"` | no |
+| <a name="input_restore"></a> [restore](#input\_restore) | Mark the container creation/update as a restore task. Default is false | `bool` | `false` | no |
+| <a name="input_rootfs_size"></a> [rootfs\_size](#input\_rootfs\_size) | Size of the root filesystem. Must end in T, G, M, or K (e.g., '8G', '1024M') | `string` | `"8G"` | no |
+| <a name="input_rootfs_storage"></a> [rootfs\_storage](#input\_rootfs\_storage) | Storage identifier for the root filesystem (e.g., 'local-lvm', 'local-zfs') | `string` | `"local-lvm"` | no |
+| <a name="input_searchdomain"></a> [searchdomain](#input\_searchdomain) | DNS search domain for the container. Uses Proxmox host values if not specified | `string` | `null` | no |
+| <a name="input_ssh_public_keys"></a> [ssh\_public\_keys](#input\_ssh\_public\_keys) | Multi-line string of SSH public keys that will be added to the container's authorized\_keys | `string` | `null` | no |
+| <a name="input_start"></a> [start](#input\_start) | Specifies whether the container is started after creation. Default is false | `bool` | `true` | no |
+| <a name="input_startup"></a> [startup](#input\_startup) | Startup and shutdown behavior (e.g., 'order=1,up=30,down=60'). Defines startup order and delays | `string` | `null` | no |
+| <a name="input_swap"></a> [swap](#input\_swap) | Amount of swap memory available to the container in MB. Default is 512 | `number` | `512` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags to merge with mandatory module tags (managed-by, module). Tag values will appear in Proxmox UI as tags and full key=value pairs in description. | `map(string)` | `{}` | no |
+| <a name="input_target_node"></a> [target\_node](#input\_target\_node) | Name of the Proxmox cluster node where the LXC container will be created | `string` | n/a | yes |
+| <a name="input_template"></a> [template](#input\_template) | Enable to mark this container as a template for cloning. Default is false | `bool` | `false` | no |
+| <a name="input_tty"></a> [tty](#input\_tty) | Number of TTY (teletypewriter) devices available to the container. Default is 2 | `number` | `2` | no |
+| <a name="input_unique"></a> [unique](#input\_unique) | Assign a unique random ethernet address to the container. Default is false | `bool` | `false` | no |
+| <a name="input_unprivileged"></a> [unprivileged](#input\_unprivileged) | Makes the container run as an unprivileged user. Recommended for security. Default is false | `bool` | `true` | no |
+| <a name="input_vmid"></a> [vmid](#input\_vmid) | VMID for the LXC container. If set to 0 or null, the next available VMID is used | `number` | `null` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_additional_networks"></a> [additional\_networks](#output\_additional\_networks) | Additional network interfaces configured on the container |
+| <a name="output_hostname"></a> [hostname](#output\_hostname) | The hostname of the LXC container |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the LXC container resource |
+| <a name="output_ipv4_address"></a> [ipv4\_address](#output\_ipv4\_address) | The IPv4 address of the LXC container (if static IP is configured) |
+| <a name="output_mountpoints"></a> [mountpoints](#output\_mountpoints) | Additional storage mountpoints configured on the container |
+| <a name="output_network_config"></a> [network\_config](#output\_network\_config) | Network configuration applied to the container |
+| <a name="output_total_mountpoints"></a> [total\_mountpoints](#output\_total\_mountpoints) | Total number of mountpoints (excluding rootfs) |
+| <a name="output_total_networks"></a> [total\_networks](#output\_total\_networks) | Total number of network interfaces (including eth0) |
+| <a name="output_vmid"></a> [vmid](#output\_vmid) | The VM ID assigned to the LXC container |
+<!-- END_TF_DOCS -->

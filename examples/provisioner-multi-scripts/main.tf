@@ -75,7 +75,7 @@ module "lxc_with_multi_scripts" {
 
   # SSH connection configuration
   provisioner_ssh_user        = "root"
-  provisioner_ssh_private_key = "~/.ssh/id_rsa" # File path (recommended)
+  provisioner_ssh_private_key = file("~/.ssh/id_rsa") # Use file() to read key
 
   # Execute all *.sh scripts from directory (in lexicographic order)
   provisioner_scripts_dir = "${path.module}/scripts"
