@@ -210,8 +210,12 @@ locals {
 
   # Process SSH private key (file path or content)
   # If it starts with "-----BEGIN", it's key content; otherwise treat as file path
-  # Use nonsensitive() to unmark the value for string operations, then mark it back as sensitive
-  ssh_private_key = var.provisioner_ssh_private_key != null && !can(regex("^-----BEGIN", nonsensitive(var.provisioner_ssh_private_key))) ? sensitive(file(nonsensitive(var.provisioner_ssh_private_key))) : var.provisioner_ssh_private_key
+  # Unmark sensitive value for conditional logic, then re-mark the result
+  ssh_private_key = var.provisioner_ssh_private_key != null ? (
+    !can(regex("^-----BEGIN", nonsensitive(var.provisioner_ssh_private_key))) ?
+    sensitive(file(nonsensitive(var.provisioner_ssh_private_key))) :
+    sensitive(nonsensitive(var.provisioner_ssh_private_key))
+  ) : null
 
   # Determine execution mode: scripts_dir > script_path > commands
   use_scripts_dir = var.provisioner_scripts_dir != null

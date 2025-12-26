@@ -67,13 +67,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run tfsec
-        uses: aquasecurity/tfsec-action@v1.0.3
-        with:
-          soft_fail: true
-          format: sarif
-          sarif_file: tfsec.sarif
-          additional_args: --minimum-severity MEDIUM
+      - name: Install tfsec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+          tfsec --version
+
+      - name: Run tfsec and output SARIF
+        run: tfsec --format sarif --out tfsec.sarif --soft-fail --minimum-severity MEDIUM .
+        continue-on-error: true
+
+      - name: Verify tfsec SARIF file exists
+        run: ls -l tfsec.sarif
+        continue-on-error: true
 
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@v12
@@ -87,14 +92,14 @@ jobs:
 
       - name: Upload tfsec results to GitHub Security
         uses: github/codeql-action/upload-sarif@v4
-        if: always()
+        if: always() && hashFiles('tfsec.sarif') != ''
         with:
           sarif_file: tfsec.sarif
           category: tfsec
 
       - name: Upload Checkov results to GitHub Security
         uses: github/codeql-action/upload-sarif@v4
-        if: always()
+        if: always() && hashFiles('checkov.sarif') != ''
         with:
           sarif_file: checkov.sarif
           category: checkov
