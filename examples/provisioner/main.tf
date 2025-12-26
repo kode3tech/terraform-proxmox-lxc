@@ -65,12 +65,18 @@ module "lxc_with_script" {
   # =============================================================================
   # PROVISIONER CONFIGURATION - SSH KEY + SCRIPT FILE
   # =============================================================================
-  provisioner_enabled = true
-  # SSH connection configuration
-  provisioner_ssh_user        = "root"
-  provisioner_ssh_private_key = file("~/.ssh/id_rsa") # Use file() to read key
-  # Execute external script (recommended for complex provisioning)
-  provisioner_script_path = "${path.module}/scripts/install-docker.sh"
+  # NOTE: Provisioner is DISABLED by default for security and CI validation.
+  # To enable provisioning:
+  # 1. Set provisioner_enabled = true
+  # 2. Provide your SSH private key using file() function:
+  #    provisioner_ssh_private_key = file("~/.ssh/id_rsa")
+  # 3. Ensure the container has your public key configured via ssh_public_keys
+  # =============================================================================
+  provisioner_enabled = false
+  # Uncomment and configure when ready to use provisioner:
+  # provisioner_ssh_user        = "root"
+  # provisioner_ssh_private_key = file("~/.ssh/id_rsa")  # YOUR private key
+  # provisioner_script_path     = "${path.module}/scripts/install-docker.sh"
 
   # Description
   description = "LXC container with Docker installed via external script"
