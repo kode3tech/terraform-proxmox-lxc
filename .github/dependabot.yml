@@ -8,11 +8,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "maintainers"
-    labels:
-      - "dependencies"
-      - "terraform"
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
@@ -30,11 +25,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "maintainers"
-    labels:
-      - "dependencies"
-      - "github-actions"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -47,9 +37,6 @@ updates:
       day: "monday"
       time: "10:00"
     open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "examples"
     commit-message:
       prefix: "deps"
       include: "scope"
@@ -62,9 +49,6 @@ updates:
       day: "monday"
       time: "10:00"
     open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "examples"
     commit-message:
       prefix: "deps"
       include: "scope"
@@ -77,9 +61,6 @@ updates:
       day: "monday"
       time: "10:00"
     open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "examples"
     commit-message:
       prefix: "deps"
       include: "scope"
@@ -92,9 +73,6 @@ updates:
       day: "monday"
       time: "10:00"
     open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "examples"
     commit-message:
       prefix: "deps"
       include: "scope"
@@ -107,9 +85,6 @@ updates:
       day: "monday"
       time: "10:00"
     open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "examples"
     commit-message:
       prefix: "deps"
       include: "scope"
