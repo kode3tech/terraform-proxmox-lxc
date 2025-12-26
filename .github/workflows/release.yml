@@ -79,6 +79,9 @@ jobs:
   run-ci:
     name: Run CI Checks
     needs: validate-tag
+    permissions:
+      contents: read
+      security-events: write
     uses: ./.github/workflows/ci.yml
 
   create-release:
