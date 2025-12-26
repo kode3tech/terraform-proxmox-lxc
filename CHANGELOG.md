@@ -15,6 +15,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2025-12-26
+
+### Added
+- **TESTING.md guide**: Comprehensive testing documentation for all examples
+  - Step-by-step testing instructions for each example
+  - Prerequisites and environment setup guide
+  - Common issues troubleshooting section
+  - Testing options with and without provisioner
+  - Best practices for example customization
+
+### Changed
+- **Example documentation improvements**:
+  - Added parametrized variables to all 5 examples (basic, advanced, provisioner, provisioner-multi-scripts, hookscript)
+  - Converted hardcoded values to configurable variables with sensible defaults
+  - Examples now display input variables in Terraform Registry documentation
+  - Improved user experience for copying and customizing examples
+
+### Security
+- **Removed fake SSH keys** from all example directories
+- **SSH keys now optional** in examples with clear instructions for adding real keys
+- **Password authentication as default** for quick testing
+- Examples use secure defaults without committing credentials
+
+### Fixed
+- **tflint validation**: Added `.tflint.hcl` configuration to examples to disable `terraform_unused_declarations` rule
+  - Variables in examples are intentionally declared for documentation purposes
+  - Configuration prevents false positives in CI/CD pipelines
+- **Advanced example**: Removed unused variables (`rootfs_storage`, `network_bridge`, `network_ip`, `network_gateway`)
+
+---
+
 ## [1.0.0] - 2025-12-26
 
 ### Added
