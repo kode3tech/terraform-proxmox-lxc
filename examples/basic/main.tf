@@ -1,53 +1,140 @@
+# =============================================================================
+# BASIC LXC CONTAINER EXAMPLE
+# =============================================================================
+# This example demonstrates the minimum required configuration to create an
+# LXC container using this module, based on the official Telmate/proxmox
+# provider documentation.
+#
+# Reference: https://registry.terraform.io/providers/Telmate/proxmox/latest/docs/resources/lxc
+# =============================================================================
+
 module "lxc_container" {
   source = "../.."
 
-  # Naming convention
-  prefix   = "app"
-  env      = "dev"
-  workload = "web"
-  index    = "01"
+  # ---------------------------------------------------------------------------
+  # REQUIRED ARGUMENTS
+  # ---------------------------------------------------------------------------
+  hostname    = "app-dev-web-01"                                        # Container hostname
+  target_node = "pve01"                                                 # Proxmox cluster node name
+  ostemplate  = "nas:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz" # Volume identifier pointing to OS template or backup file
 
-  # Proxmox configuration
-  target_node = "pve-node01" # Change to your Proxmox node name
-  vmid        = null         # Auto-assign VM ID
+  # ---------------------------------------------------------------------------
+  # STORAGE CONFIGURATION
+  # ---------------------------------------------------------------------------
+  rootfs_storage = "nas" # Storage pool for root filesystem (change to your storage name)
+  rootfs_size    = "8G"  # Root filesystem size
 
-  # Container image
-  ostemplate = "local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+  # ---------------------------------------------------------------------------
+  # NETWORK CONFIGURATION
+  # ---------------------------------------------------------------------------
+  network_bridge = "vmbr0" # Bridge to attach
+  network_ip     = "dhcp"  # Use DHCP for automatic IP assignment
 
-  # Resources
-  cores  = 2
-  memory = 2048
-  swap   = 1024
+  # ---------------------------------------------------------------------------
+  # AUTHENTICATION & ACCESS
+  # ---------------------------------------------------------------------------
+  # IMPORTANT: Without authentication, you can only access via Proxmox console!
+  # Uncomment ONE of the options below to enable SSH access:
+  # ---------------------------------------------------------------------------
+  # Option 1: SSH Public Key (RECOMMENDED for production)
+  # Inject your SSH public key to access as root via SSH
+  # ssh_public_keys = file("~/.ssh/id_rsa.pub")
 
-  # Storage
-  rootfs_storage = "local-lvm"
-  rootfs_size    = "10G"
+  # Option 2: Root Password (NOT RECOMMENDED - use only for testing)
+  # Set root password for console/SSH access
+  password = "YourSecurePassword123!"
 
-  # Network
-  network_bridge  = "vmbr0"
-  network_ip      = "192.168.1.100/24"
-  network_gateway = "192.168.1.1"
-  # network_vlan    = 10 # Optional VLAN tag
+  # Note: With DHCP, you'll need to check the IP after creation:
+  # - Via Proxmox UI: Container > Summary > IP Address
+  # - Via CLI: ssh root@proxmox-host "pct exec <vmid> -- hostname -I"
+  # Then SSH: ssh root@<container-ip>
 
-  # Container settings
-  unprivileged = true
-  onboot       = false
-  start        = true
+  # ---------------------------------------------------------------------------
+  # OPTIONAL ARGUMENTS (Provider Optional)
+  # ---------------------------------------------------------------------------
+  # The following arguments are optional. Uncomment and modify as needed.
+  # Provider documentation: https://registry.terraform.io/providers/Telmate/proxmox/latest/docs/resources/lxc
+  # ---------------------------------------------------------------------------
+  # Container Identification
+  # vmid = null # VMID for the container (0 = auto-assign next available)
 
-  # SSH access (replace with your public key)
-  ssh_public_keys = <<-EOT
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC... user@hostname
-  EOT
+  # Architecture & OS
+  # arch   = "amd64" # Container architecture: amd64, arm64, armhf, i386
+  # ostype = null    # OS type for LXC setup (alpine, archlinux, centos, debian, ubuntu, unmanaged)
 
-  # Optional password (not recommended for production)
-  # password = "change-me"
+  # Resource Allocation (CPU & Memory)
+  # cores    = null # Number of CPU cores (null = use all available)
+  # cpulimit = 0    # CPU usage limit (0 = unlimited)
+  # cpuunits = 1024 # CPU weight for scheduling
+  # memory   = 512  # RAM in MB
+  # swap     = 512  # Swap memory in MB
 
-  # Additional tags
-  tags = {
-    project = "example"
-    owner   = "infrastructure-team"
-  }
+  # Storage Configuration (rootfs is required by provider, automatically configured by module)
+  # rootfs_storage = "local-lvm" # Storage pool for root filesystem
+  # rootfs_size    = "8G"        # Root filesystem size (format: <number>T|G|M|K)
+  # bwlimit        = null        # I/O bandwidth limit in KiB/s
 
-  # Description
-  description = "Example web application container"
+  # Network Configuration
+  # network_bridge   = "vmbr0" # Bridge to attach (e.g., "vmbr0")
+  # network_ip       = "dhcp"  # IPv4: static CIDR, "dhcp", or "manual"
+  # network_gateway  = null    # IPv4 gateway address
+  # network_ip6      = null    # IPv6: static CIDR, "auto", "dhcp", or "manual"
+  # network_gw6      = null    # IPv6 gateway address
+  # network_hwaddr   = null    # MAC address (I/G bit not set)
+  # network_mtu      = null    # MTU size
+  # network_rate     = null    # Rate limit in Mbps
+  # network_vlan     = null    # VLAN tag
+  # network_firewall = false   # Enable Proxmox firewall on interface
+
+  # DNS Configuration
+  # nameserver   = null # DNS server IP (defaults to Proxmox host if not set)
+  # searchdomain = null # DNS search domain (defaults to Proxmox host if not set)
+
+  # Container Behavior
+  # unprivileged = true  # Run as unprivileged user (recommended for security)
+  # onboot       = false # Start on boot
+  # start        = true  # Start after creation
+  # template     = false # Mark as template for cloning
+  # unique       = false # Assign unique random MAC address
+
+  # Console Configuration
+  # cmode   = "tty" # Console mode: "tty", "console", or "shell"
+  # console = true  # Attach console device
+  # tty     = 2     # Number of TTYs (0-6)
+
+  # Startup & Shutdown Behavior
+  # startup = null # Format: "order=<number>,up=<seconds>,down=<seconds>"
+
+  # Advanced Features (for Docker, nested virtualization, etc.)
+  # features = {
+  #   nesting = false # Enable nested virtualization
+  #   fuse    = false # Enable FUSE mounts
+  #   keyctl  = false # Enable keyctl() system call
+  #   mount   = null  # Allowed filesystem types separated by semicolons (e.g., "nfs;cifs")
+  # }
+
+  # Authentication & Access
+  # ssh_public_keys = null # Multi-line string of SSH public keys (use heredoc syntax)
+  # Example:
+  # ssh_public_keys = <<-EOT
+  #   ssh-rsa AAAAB3NzaC1yc2E... user@example.com
+  #   ssh-ed25519 AAAAC3NzaC1lZDI1... user@example.com
+  # EOT
+
+  # password = null # Root password (use SSH keys for production)
+
+  # Proxmox Resource Management
+  # pool       = null  # Resource pool name
+  # protection = false # Prevent removal/update
+  # force      = false # Allow overwriting pre-existing containers
+  # restore    = false # Mark as restore task
+  # hookscript = null  # Volume identifier to executable script (e.g., "local:snippets/hook.sh")
+
+  # High Availability (requires Proxmox HA setup)
+  # hastate = null # HA state: "started", "stopped", "enabled", "disabled", or "ignored"
+  # hagroup = null # HA group identifier (requires hastate to be set)
+
+  # Metadata & Tags
+  # description = "" # Container description in Proxmox UI
+  # tags        = {} # Additional tags (merged with mandatory module tags: managed-by, module)
 }

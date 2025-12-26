@@ -1,0 +1,152 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'  # Triggers on tags like v1.0.0, v2.1.3, etc.
+
+permissions:
+  contents: write  # Required to create releases
+
+jobs:
+  validate-tag:
+    name: Validate Tag
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      changelog: ${{ steps.extract-changelog.outputs.changelog }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for changelog extraction
+
+      - name: Get version from tag
+        id: get-version
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          VERSION=${TAG#v}
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "📦 Version: ${VERSION}"
+
+      - name: Validate tag format
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          if [[ ! "${TAG}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Invalid tag format: ${TAG}"
+            echo "Expected format: vX.Y.Z (e.g., v1.0.0)"
+            exit 1
+          fi
+          echo "✅ Tag format is valid: ${TAG}"
+
+      - name: Check if version exists in CHANGELOG
+        id: check-changelog
+        run: |
+          VERSION=${{ steps.get-version.outputs.version }}
+          if ! grep -q "## \[${VERSION}\]" CHANGELOG.md; then
+            echo "❌ Version ${VERSION} not found in CHANGELOG.md"
+            echo "Please add release notes to CHANGELOG.md before creating a tag"
+            exit 1
+          fi
+          echo "✅ Version ${VERSION} found in CHANGELOG.md"
+
+      - name: Extract changelog for this version
+        id: extract-changelog
+        run: |
+          VERSION=${{ steps.get-version.outputs.version }}
+
+          # Extract content between [VERSION] and next version or end of file
+          CHANGELOG=$(awk "/## \[${VERSION}\]/,/## \[|<!-- END CHANGELOG -->/" CHANGELOG.md | \
+                      sed '/## \[/d' | \
+                      sed '/<!-- END CHANGELOG -->/d' | \
+                      sed '/^$/N;/^\n$/D')
+
+          # Save to file for multi-line output
+          echo "${CHANGELOG}" > /tmp/changelog.txt
+
+          # Set output (escape for GitHub Actions)
+          {
+            echo 'changelog<<EOF'
+            cat /tmp/changelog.txt
+            echo EOF
+          } >> $GITHUB_OUTPUT
+
+          echo "📝 Extracted changelog:"
+          cat /tmp/changelog.txt
+
+  run-ci:
+    name: Run CI Checks
+    needs: validate-tag
+    uses: ./.github/workflows/ci.yml
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate-tag, run-ci]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: v${{ needs.validate-tag.outputs.version }}
+          body: |
+            # Release v${{ needs.validate-tag.outputs.version }}
+
+            ${{ needs.validate-tag.outputs.changelog }}
+
+            ---
+
+            ## 📦 Usage
+
+            ```hcl
+            module "lxc_container" {
+              source = "github.com/kode3tech/terraform-proxmox-lxc?ref=v${{ needs.validate-tag.outputs.version }}"
+
+              hostname    = "app-dev-web-01"
+              target_node = "pve01"
+              ostemplate  = "local:vztmpl/ubuntu-22.04-standard.tar.zst"
+
+              # ... your configuration
+            }
+            ```
+
+            ## 📚 Documentation
+
+            - [Full README](https://github.com/kode3tech/terraform-proxmox-lxc/blob/v${{ needs.validate-tag.outputs.version }}/README.md)
+            - [Examples](https://github.com/kode3tech/terraform-proxmox-lxc/tree/v${{ needs.validate-tag.outputs.version }}/examples)
+            - [CHANGELOG](https://github.com/kode3tech/terraform-proxmox-lxc/blob/v${{ needs.validate-tag.outputs.version }}/CHANGELOG.md)
+
+            ## 🔒 Checksums
+
+            Git commit: `${{ github.sha }}`
+          draft: false
+          prerelease: false
+
+      - name: Update release status
+        run: |
+          echo "✅ Release v${{ needs.validate-tag.outputs.version }} created successfully!"
+          echo "🔗 Release URL: ${{ steps.create-release.outputs.html_url }}"
+
+  notify-registry:
+    name: Notify Terraform Registry
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    steps:
+      - name: Registry sync notification
+        run: |
+          echo "📢 GitHub Release created!"
+          echo "🔄 Terraform Registry will automatically sync within 5-10 minutes"
+          echo "🌐 Module URL: https://registry.terraform.io/modules/kode3tech/lxc/proxmox"
+          echo ""
+          echo "⏳ Please wait for registry indexing to complete"
+          echo "✅ No manual action required - registry auto-syncs with GitHub Releases"

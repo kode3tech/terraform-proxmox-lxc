@@ -7,6 +7,14 @@
 !terraform.tfvars.example
 !*.auto.tfvars.example
 
+# Environment variables (contains sensitive credentials)
+.env
+.env.local
+.env.*.local
+
+# Direnv
+.envrc.local
+
 # Temporary files
 .tmp/**
 _temp/**

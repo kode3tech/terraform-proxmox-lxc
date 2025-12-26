@@ -1,0 +1,114 @@
+name: ❓ Question
+description: Ask a question about using the module
+title: "[QUESTION] "
+labels: ["question", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? We're here to help!
+
+        **💡 Tip:** For general discussions, consider using [GitHub Discussions](https://github.com/kode3tech/terraform-proxmox-lxc/discussions) instead.
+
+        **Before submitting:**
+        - Check the [documentation](https://github.com/kode3tech/terraform-proxmox-lxc#readme)
+        - Search [existing issues](https://github.com/kode3tech/terraform-proxmox-lxc/issues)
+        - Check [SUPPORT.md](https://github.com/kode3tech/terraform-proxmox-lxc/blob/main/SUPPORT.md)
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify the following before submitting
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have read the relevant documentation
+          required: true
+        - label: This is a specific question, not a general discussion
+          required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: |
+        How do I...?
+        What's the best way to...?
+        Can this module...?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide context about what you're trying to achieve
+      placeholder: |
+        I'm trying to deploy...
+        My use case is...
+        I want to configure...
+    validations:
+      required: true
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What Have You Tried
+      description: What have you already attempted?
+      placeholder: |
+        I tried configuring...
+        I looked at the example...
+        I read the docs for...
+    validations:
+      required: false
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Current Configuration
+      description: If relevant, show your current configuration
+      render: hcl
+      placeholder: |
+        module "lxc" {
+          source = "..."
+
+          # My current configuration
+        }
+    validations:
+      required: false
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What is your question about?
+      options:
+        - Basic usage
+        - Advanced configuration
+        - Networking
+        - Provisioning
+        - Hookscripts
+        - Security
+        - Best practices
+        - Troubleshooting
+        - Provider configuration
+        - Examples
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: |
+        - Environment: Production/Development
+        - Urgency: High/Low
+        - Related documentation: [link]
+    validations:
+      required: false

@@ -1,0 +1,115 @@
+version: 2
+updates:
+  # Terraform provider updates
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "maintainers"
+    labels:
+      - "dependencies"
+      - "terraform"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for provider (manual review required)
+      - dependency-name: "Telmate/proxmox"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "maintainers"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # Example directories - Basic
+  - package-ecosystem: "terraform"
+    directory: "/examples/basic"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # Example directories - Advanced
+  - package-ecosystem: "terraform"
+    directory: "/examples/advanced"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # Example directories - Provisioner
+  - package-ecosystem: "terraform"
+    directory: "/examples/provisioner"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # Example directories - Provisioner Multi Scripts
+  - package-ecosystem: "terraform"
+    directory: "/examples/provisioner-multi-scripts"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # Example directories - Hookscript
+  - package-ecosystem: "terraform"
+    directory: "/examples/hookscript"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "examples"
+    commit-message:
+      prefix: "deps"
+      include: "scope"

@@ -27,3 +27,38 @@ output "network_config" {
     vlan    = var.network_vlan
   }
 }
+
+output "additional_networks" {
+  description = "Additional network interfaces configured on the container"
+  value = [
+    for net in var.additional_networks : {
+      name   = net.name
+      bridge = net.bridge
+      ip     = net.ip
+      vlan   = net.tag
+    }
+  ]
+}
+
+output "mountpoints" {
+  description = "Additional storage mountpoints configured on the container"
+  value = [
+    for mp in var.mountpoints : {
+      slot    = mp.slot
+      path    = mp.mp
+      storage = mp.storage
+      size    = mp.size
+      backup  = mp.backup
+    }
+  ]
+}
+
+output "total_networks" {
+  description = "Total number of network interfaces (including eth0)"
+  value       = 1 + length(var.additional_networks)
+}
+
+output "total_mountpoints" {
+  description = "Total number of mountpoints (excluding rootfs)"
+  value       = length(var.mountpoints)
+}

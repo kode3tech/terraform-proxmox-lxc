@@ -6,6 +6,11 @@ terraform {
       source  = "registry.terraform.io/Telmate/proxmox"
       version = "3.0.2-rc07"
     }
+
+    null = {
+      source  = "hashicorp/null"
+      version = ">= 3.0"
+    }
   }
 }
 

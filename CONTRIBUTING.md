@@ -89,7 +89,7 @@ BREAKING CHANGE: `network_*` variables are deprecated in favor of `networks` lis
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourorg/terraform-proxmox-lxc.git
+git clone https://github.com/kode3tech/terraform-proxmox-lxc.git
 cd terraform-proxmox-lxc
 ```
 

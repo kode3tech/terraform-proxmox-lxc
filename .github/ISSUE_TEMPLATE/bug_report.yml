@@ -1,0 +1,157 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out this form as completely as possible.
+
+        **Before submitting:** Please search existing issues to avoid duplicates.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify the following before submitting
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: I have read the documentation and troubleshooting guides
+          required: true
+        - label: I am using a supported version (v1.x.x)
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: When I try to..., I expect... but instead...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Please provide your environment details
+      value: |
+        - **Module version:** (e.g., v1.0.0)
+        - **Terraform version:** (run `terraform version`)
+        - **OpenTofu version:** (if using OpenTofu)
+        - **Provider version:** (Telmate/proxmox)
+        - **Proxmox VE version:** (e.g., 8.0.4)
+        - **Operating System:** (e.g., Ubuntu 22.04)
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the issue
+      placeholder: |
+        1. Configure module with...
+        2. Run `terraform apply`
+        3. Observe error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: The container should be created successfully with...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+      placeholder: Instead, I get an error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Terraform Configuration
+      description: Paste your module configuration (remove sensitive data!)
+      render: hcl
+      placeholder: |
+        module "lxc" {
+          source = "..."
+
+          hostname = "test"
+          # ... other configuration
+        }
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_output
+    attributes:
+      label: Error Output
+      description: Paste the complete error output
+      render: shell
+      placeholder: |
+        Error: ...
+
+        Paste full error output here
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug Logs
+      description: If applicable, add debug logs (run with TF_LOG=DEBUG)
+      render: shell
+      placeholder: |
+        Run: TF_LOG=DEBUG terraform apply
+
+        Paste relevant logs here
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or relevant information
+      placeholder: |
+        - This works in version X.Y.Z but fails in X.Y.Z+1
+        - Related to issue #123
+        - Screenshot showing...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severely does this bug affect your work?
+      options:
+        - Critical - Complete blocker, cannot proceed
+        - High - Major functionality broken
+        - Medium - Feature impaired but workaround exists
+        - Low - Minor inconvenience
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you willing to help fix this?
+      options:
+        - label: I am willing to submit a pull request to fix this bug
+          required: false

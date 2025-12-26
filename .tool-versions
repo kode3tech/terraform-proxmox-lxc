@@ -3,3 +3,4 @@ opentofu 1.8.5
 pre-commit 4.0.1
 tflint 0.50.3
 terraform-docs 0.17.0
+direnv 2.37.1

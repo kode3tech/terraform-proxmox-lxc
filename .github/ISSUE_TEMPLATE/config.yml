@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions
+    url: https://github.com/kode3tech/terraform-proxmox-lxc/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📓 Documentation
+    url: https://github.com/kode3tech/terraform-proxmox-lxc#readme
+    about: Read the module documentation and examples
+  - name: 🔒 Security Issue
+    url: https://github.com/kode3tech/terraform-proxmox-lxc/security/advisories/new
+    about: Report a security vulnerability (private reporting)
+  - name: 💬 Support
+    url: https://github.com/kode3tech/terraform-proxmox-lxc/blob/main/SUPPORT.md
+    about: Get help using the module

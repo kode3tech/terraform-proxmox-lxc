@@ -1,3 +1,2 @@
-# This file intentionally left empty
-# Variables are not required for this basic example
-# Provider configuration is done via environment variables
+# This file intentionally left empty to comply with Terraform standard module structure
+# All configuration is done directly in main.tf for this basic example
