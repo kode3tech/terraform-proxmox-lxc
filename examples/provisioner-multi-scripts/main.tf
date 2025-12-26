@@ -61,7 +61,7 @@ module "lxc_with_multi_scripts" {
   network_gateway = "192.168.1.1"
 
   # SSH public key (REQUIRED for SSH key authentication)
-  ssh_public_keys = file("~/.ssh/id_rsa.pub")
+  ssh_public_keys = file("${path.module}/.ssh/id_rsa.pub")
 
   # Features
   features = {

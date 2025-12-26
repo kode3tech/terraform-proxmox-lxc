@@ -331,7 +331,7 @@ module "lxc_advanced" {
   # - Installed for root user
   # - RECOMMENDED: always use SSH keys instead of password
   # - Supports RSA, Ed25519, ECDSA
-  ssh_public_keys = file("~/.ssh/id_rsa.pub")
+  ssh_public_keys = file("${path.module}/.ssh/id_rsa.pub")
 
   # password: Container root user password
   # - String with password in plain text

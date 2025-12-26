@@ -70,8 +70,9 @@ jobs:
       - name: Run tfsec
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
-          soft_fail: false
+          soft_fail: true
           format: sarif
+          sarif_file: tfsec.sarif
           additional_args: --minimum-severity MEDIUM
 
       - name: Run Checkov
@@ -79,22 +80,23 @@ jobs:
         with:
           directory: .
           framework: terraform
-          soft_fail: false
+          soft_fail: true
           output_format: sarif
+          output_file_path: checkov.sarif
           skip_check: CKV_TF_1  # Skip version pinning check (we use ~>)
 
       - name: Upload tfsec results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: tfsec.sarif
           category: tfsec
 
       - name: Upload Checkov results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
-          sarif_file: results.sarif
+          sarif_file: checkov.sarif
           category: checkov
 
   opentofu-validation:

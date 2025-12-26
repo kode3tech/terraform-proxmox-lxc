@@ -57,7 +57,7 @@ module "lxc_with_hookscript" {
   hookscript = "local:snippets/hookscript.sh"
 
   # SSH access (recommended for post-start configuration)
-  ssh_public_keys = file("~/.ssh/id_rsa.pub")
+  ssh_public_keys = file("${path.module}/.ssh/id_rsa.pub")
 
   # Root Password (NOT RECOMMENDED - use only for testing)
   # Set root password for console/SSH access
