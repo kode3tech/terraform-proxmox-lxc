@@ -15,6 +15,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.1] - 2025-12-27
+
+### Fixed
+- **Documentation structure**: Removed duplicate sections in README.md
+  - Eliminated duplicate Requirements, Providers, Resources, Inputs, and Outputs tables
+  - Removed redundant Usage, Hostname Validation, Tagging, and Provisioner Support sections
+  - Removed duplicate Examples, Security, Contributing, and Versioning Policy sections
+  - Removed legacy `<!-- BEGIN/END_TF_DOCS -->` markers in favor of pre-commit-terraform hooks
+  - Reduced documentation by ~430 lines (~45% reduction)
+  - Improved readability and maintainability
+  - Single source of truth for all technical documentation (auto-generated via pre-commit)
+
+### Changed
+- **Documentation organization**: Streamlined README structure
+  - Quick Start section provides rapid onboarding
+  - Auto-generated technical documentation (Requirements, Inputs, Outputs)
+  - FAQ section covers all common use cases
+  - Removed redundant manual sections
+
+---
+
 ## [1.2.0] - 2025-12-26
 
 ### Added
